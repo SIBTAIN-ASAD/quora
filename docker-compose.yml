@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    command: ["gunicorn", "quora.wsgi:application", "--bind", "0.0.0.0:8000"]
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    environment:
+      POSTGRES_DB: quora
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: sibtain@8
+    ports:
+      - "5432:5432"
