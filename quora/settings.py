@@ -11,6 +11,37 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+# ------------------------------------------------------------------
+# Custom Settings by SAM
+# ------------------------------------------------------------------
+
+# Load .env file
+load_dotenv()
+
+secret_key = os.environ.get('SECRET_KEY')
+database_name = os.environ.get('DATABASE_NAME')
+database_user = os.environ.get('DATABASE_USER')
+database_password = os.environ.get('DATABASE_PASSWORD')
+database_host = os.environ.get('DATABASE_HOST')
+database_port = os.environ.get('DATABASE_PORT')
+
+# adding config
+cloudinary.config(
+    cloud_name = os.environ.get('CLOUD_NAME'),
+    api_key = os.environ.get('API_KEY'),
+    api_secret = os.environ.get('API_SECRET'),
+)
+
+# ------------------------------------------------------------------
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +68,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Custom Apps
+    'accounts.apps.AccountsConfig',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -74,9 +109,14 @@ WSGI_APPLICATION = 'quora.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {        
+        #postgres
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': database_name,
+        'USER': database_user,
+        'PASSWORD': database_password,
+        'HOST': database_host,
+        'PORT': database_port,
     }
 }
 
@@ -121,3 +161,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom Settings by SAM
+AUTH_USER_MODEL = 'accounts.CustomUser'
