@@ -1,11 +1,12 @@
 # accounts/forms.py
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
+from cloudinary.models import CloudinaryField
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ("age", "email", "profilePicture")
+        fields = UserCreationForm.Meta.fields + ( "age", "email", "profilePicture", "first_name")
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
