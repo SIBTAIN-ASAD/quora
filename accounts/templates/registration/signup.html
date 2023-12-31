@@ -11,11 +11,11 @@
         <div class="container login-container mx-auto py-3 w-50 h-75 shadow pt-5 py-3 bg-white rounded">
             <div class="text-center">
                 <a href="{% url 'home' %}">
-                    <img src="{% static 'img/logo-short.png' %}" alt="logo" class="img-fluid my-5" width="100px">
+                    <img src="{% static 'img/logo-short.png' %}" alt="logo" class="img-fluid mb-2" width="100px">
                 </a>
             </div>
 
-            <div class="text-center w-50 mx-auto pb-5 ">
+            <div class="text-center w-50 mx-auto">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
 
