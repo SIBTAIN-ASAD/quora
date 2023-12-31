@@ -133,3 +133,6 @@ GitHub.sublime-settings
 
 # custom by sam
 sam.session.sql
+Pipfile
+Pipfile.lock
+

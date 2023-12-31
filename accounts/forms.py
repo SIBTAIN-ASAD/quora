@@ -1,8 +1,6 @@
 # accounts/forms.py
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
-from cloudinary.models import CloudinaryField
-
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = CustomUser
