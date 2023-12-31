@@ -94,7 +94,7 @@ TEMPLATES = [
     {
         
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / "templates", BASE_DIR / "accounts/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -177,3 +177,5 @@ LOGOUT_REDIRECT_URL = "login"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Quora is a Django-based web application that aims to provide a platform similar to Quora for users to ask questions, answer questions, and engage in discussions.
+Quora is a Django-based web application that aims to provide a platform similar to Quora for users to ask questions, answer questions, follow topics and do like posts. 
 
 ## Features
 
