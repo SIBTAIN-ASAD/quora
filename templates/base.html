@@ -23,7 +23,7 @@
 </head>
 
     <body>
-        {% if request.path != '/accounts/login/' and request.path != '/accounts/signup/' %}
+        {% if '/accounts/' not in request.path %}
             {% include 'navbar.html' %}
         {% endif %} 
 
