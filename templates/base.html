@@ -23,7 +23,7 @@
 </head>
 
     <body>
-        {% if '/accounts/' not in request.path %}
+        {% if '/password_change/' not in request.path and  '/password_reset/' not in request.path and  '/reset/' not in request.path and '/login/' not in request.path and '/signup/' not in request.path %}
             {% include 'navbar.html' %}
         {% endif %} 
 
