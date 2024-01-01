@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="mt-2 pt-5 col-md-12">
+                <div id="content" class="content content-full-width">
+                    <div class="profile">
+                        <div class="profile-header">
+                            <div class="profile-header-cover"></div>
+                            <div class="profile-header-content">
+                                <div class="profile-header-img">
+                                    {% if user.profilePicture %}
+                                        <img src="{{ user.profilePicture.url }}" alt="Profile Picture">
+                                    {% endif %}
+                                </div>
+                                <div class="profile-header-info">
+                                    <h4 class="m-t-10 m-b-5">{{ user.username }}</h4>
+                                    <p class="m-b-10">Name: {{ user.first_name }}</p>
+                                    <p class="m-b-10">Age: {{ user.age }}</p>
+                                    <p class="m-b-10">Email: {{ user.email }}</p>
+                                    <!-- Add more user details as needed -->
+                                    <a href="#" class="btn btn-sm btn-info mb-2">Edit Profile</a>
+                                </div>
+                            </div>
+                            <ul class="profile-header-tab nav nav-tabs">
+                                <!-- Additional profile tabs go here if needed -->
+                                <!-- ... -->
+                            </ul>
+                        </div>
+
+                        <div class="profile-content">
+                            <div class="tab-content p-0">
+                                <div class="tab-pane fade active show" id="profile-post">
+                                    <ul class="timeline">
+                                        <!-- Existing timeline content -->
+                                        <!-- ... -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- Topics Section -->
+                   <div class="shadow p-3 mb-5 bg-white rounded">
+                    <h4>Topics You're Following</h4>
+                    <div class="row mt-3">
+                        <div class="">
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Technology</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Science</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Programming</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Design</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Design</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Design</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Design</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Design</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Data Science</span>
+                            <span class="badge badge-primary text-light p-2 m-1 rounded-pill" style="background-color: #007BFF;">Artificial Intelligence</span>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            <!-- Dummy Question Section -->
+            <div class="question-section shadow p-4 mb-4 bg-white rounded">
+                <h2 class="font-weight-bold pb-3 mb-4">Your Questions</h2>
+
+                <!-- Dummy Question -->
+                <div class="question mb-4 pt-5 border-top ">
+                    <h3 class="font-weight-bold">What is the meaning of life?</h3>
+                    <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-primary btn-sm">Answer this question</a>
+                        <div class="likes d-flex align-items-center">
+                            <span class="like-count"> 10 </span>
+                            <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Dummy Question -->
+            <div class="question mb-4 pt-5 border-top ">
+                <h3 class="font-weight-bold">What is the meaning of life?</h3>
+                <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="#" class="btn btn-primary btn-sm">Answer this question</a>
+                    <div class="likes d-flex align-items-center">
+                        <span class="like-count"> 10 </span>
+                        <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dummy Question -->
+            <div class="question mb-4 pt-5 border-top ">
+                <h3 class="font-weight-bold">What is the meaning of life?</h3>
+                <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="#" class="btn btn-primary btn-sm">Answer this question</a>
+                    <div class="likes d-flex align-items-center">
+                        <span class="like-count"> 10 </span>
+                        <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        
+
+
+        <!-- Dummy Answer Section -->
+        <div class="answer-section shadow p-4 mb-4 bg-white rounded">
+            <h2 class="font-weight-bold pb-3 mb-4">Your Answers</h2>
+            
+            <!-- Dummy Answer -->
+            <div class="answer mb-4 border-top pt-5">
+                <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="likes d-flex align-items-center">
+                        <span class="like-count">5</span>
+                        <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                    </div>
+                </div>
+
+                <!-- Related Questions -->
+                <div class="related-questions mt-3">
+                    <h6 class="font-weight-bold mb-2">Related Question:</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">What is the meaning of life?</a></li>
+                        <!-- Add more related questions as needed -->
+                    </ul>
+                </div>
+            </div>
+
+
+              <!-- Dummy Answer -->
+              <div class="answer mb-4 border-top pt-5">
+                <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="likes d-flex align-items-center">
+                        <span class="like-count">5</span>
+                        <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                    </div>
+                </div>
+
+                <!-- Related Questions -->
+                <div class="related-questions mt-3">
+                    <h6 class="font-weight-bold mb-2">Related Question:</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">What is the meaning of life?</a></li>
+                        <!-- Add more related questions as needed -->
+                    </ul>
+                </div>
+            </div>
+
+
+              <!-- Dummy Answer -->
+              <div class="answer mb-4 border-top pt-5">
+                <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="likes d-flex align-items-center">
+                        <span class="like-count">5</span>
+                        <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                    </div>
+                </div>
+
+                <!-- Related Questions -->
+                <div class="related-questions mt-3">
+                    <h6 class="font-weight-bold mb-2">Related Question:</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">What is the meaning of life?</a></li>
+                        <!-- Add more related questions as needed -->
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
