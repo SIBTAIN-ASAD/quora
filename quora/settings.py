@@ -71,6 +71,7 @@ INSTALLED_APPS = [
 
     # Custom Apps
     'accounts.apps.AccountsConfig',
+    'posts.apps.PostsConfig',
 
     # 3rd Party
     'cloudinary',
