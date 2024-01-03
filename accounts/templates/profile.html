@@ -4,9 +4,9 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            <div class="mt-5 pt-5  col-md-12">
+            <div class="mt-5 pt-5 col-md-12">
                 <div id="content" class="content content-full-width">
-                    <div class="profile ">
+                    <div class="profile">
                         <div class="profile-header">
                             <div class="profile-header-cover"></div>
                             <div class="profile-header-content">
@@ -27,64 +27,65 @@
                             </ul>
                         </div>
 
+                        <!-- Navigation Tabs -->
+                        <nav>
+                            <div class="nav nav-tabs mt-3 mx-2" id="nav-tab" role="tablist">
+                                <button class="nav-link active custom-color-red fw-bold" id="nav-topics-tab" data-bs-toggle="tab" data-bs-target="#nav-topics" type="button" role="tab" aria-controls="nav-topics" aria-selected="true">Topics</button>
+                                <button class="nav-link custom-color-red fw-bold" id="nav-questions-tab" data-bs-toggle="tab" data-bs-target="#nav-questions" type="button" role="tab" aria-controls="nav-questions" aria-selected="false">Questions</button>
+                                <button class="nav-link custom-color-red fw-bold" id="nav-answers-tab" data-bs-toggle="tab" data-bs-target="#nav-answers" type="button" role="tab" aria-controls="nav-answers" aria-selected="false">Answer</button>
+                            </div>
+                        </nav>
 
-                   <!-- Topics Section -->
-                   <div class="shadow p-3 mb-3 mt-3 bg-white rounded border-danger border-3 border border-bottom-0 border-top-0 border-end-0">
-                    <h3 class="custom-color-red fw-bold border-1 border-bottom pb-3">Topics You're Following</h3>
-                    <div class="row mt-3 pt-1">
-                        <div class="">
-                            {% for topic in topics %}
-                                <span class="btn-outline-danger btn btn-sm p-2 fw-bold bold m-1 rounded-1">{{ topic.name }}</span>
-                            {% endfor %}
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-topics" role="tabpanel" aria-labelledby="nav-topics-tab">
+                                <!-- Topics Section -->
+                                <div class="shadow p-3 mb-3 bg-white rounded border-danger border-3 border border-bottom-0 border-top-0 border-end-0">
+                                    <h3 class="custom-color-red fw-bold border-1 border-bottom pb-3">Topics You're Following</h3>
+                                    <div class="row mt-3 pt-1">
+                                        <div class="">
+                                            {% for topic in topics %}
+                                                <span class="btn-outline-danger btn btn-sm p-2 fw-bold bold m-1 rounded-1">{{ topic.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-questions" role="tabpanel" aria-labelledby="nav-questions-tab">
+                                <!-- Question Section -->
+                                <div class="question-section shadow p-4 mb-3 bg-white rounded border-danger border-3 border border-bottom-0 border-top-0 border-end-0">
+                                    <h3 class="custom-color-red fw-bold">Your Questions</h3>
+                                    {% for question in questions %}
+                                        <div class="question mb-4 pt-5 border-top border-1 ">
+                                            <h4 class="fw-bold">{{ question.title }}</h4>
+                                            <p class="mb-2">{{ question.description }}</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <a href="#" class="btn btn-danger btn-sm">Answer this question</a>
+                                                <div class="likes d-flex align-items-center">
+                                                    <span class="like-count"> 10 </span>
+                                                    <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-answers" role="tabpanel" aria-labelledby="nav-answers-tab">
+                                <!-- Answer Section -->
+                                <div class="answer-section shadow p-4 mb-3 bg-white rounded border-danger border-3 border border-bottom-0 border-top-0 border-end-0">
+                                    <h3 class="custom-color-red fw-bold">Your Answers</h3>
+                                    {% for answer in answers %}
+                                        <div class="answer mb-4 border-top border-1 pt-5">
+                                            <p class="mb-2 fw-bold">{{ answer.description }}</p>
+                                            <!-- Related Questions -->
+                                            <span class="btn-outline-danger btn btn-sm p-2 fw-bold bold rounded-1"> Q: {{ answer.question.title }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                </div>
-
-            <!-- Question Section -->
-            <div class="question-section shadow p-4 mb-3 bg-white rounded border-danger border-3 border border-bottom-0 border-top-0 border-end-0">
-                <h3 class="custom-color-red fw-bold">Your Questions</h3>
-
-                {% for question in questions %}
-                <div class="question mb-4 pt-5 border-top border-1 ">
-                    <h4 class="fw-bold">{{ question.title }}</h4>
-                    <p class="mb-2">{{ question.description }}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a href="#" class="btn btn-danger btn-sm">Answer this question</a>
-                        <div class="likes d-flex align-items-center">
-                            <span class="like-count"> 10 </span>
-                            <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-
-        </div>
-        
-
-        <!-- Answer Section -->
-        <div class="answer-section shadow p-4 mb-3 bg-white rounded border-danger border-3 border border-bottom-0 border-top-0 border-end-0">
-            <h3 class="custom-color-red fw-bold">Your Answers</h3>
-
-            {% for answer in answers %}
-            <div class="answer mb-4 border-top border-1 pt-5">
-                <p class="mb-2 fw-bold">{{ answer.description }}</p>
-            
-                <!-- Related Questions -->
-                <span class="btn-outline-danger btn btn-sm p-2 fw-bold bold rounded-1"> Q: {{ answer.question.title }}</span>
-            </div> 
-
-            {% endfor %}
-
-
-        </div>
-
                 </div>
             </div>
         </div>
     </div>
-
-
 {% endblock %}
-
-
