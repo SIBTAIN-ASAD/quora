@@ -3,8 +3,8 @@
 <div class="mynavclass row mx-auto col-12 p-0 bg-white position-fixed shadow">
     <nav class="mynavclass col-12 navbar navbar-expand-lg navbar-light d-flex justify-content-center py-2 px-3">
 
-        <div class="p-0 m-0 col-2">  
-        <img src="{% static 'img/logo.png'%}" width="43%" class="p-0 m-0" alt="logo">
+        <div class="p-0 m-0 col-2 mynavclass">  
+        <img src="{% static 'img/image.png'%}" width="30%" class="p-0 m-0" alt="logo">
         </div>
 
         <button class="btn btn-sm btn-light text-primary my-2 my-sm-0 d-lg-inline-block fw-bold py-2 px-2 d-inline-block d-lg-none d-xl-none " type="submit">Login</button>
@@ -33,6 +33,14 @@
 
             <div class="d-flex justify-content-between">
             {% if user.is_authenticated %}
+
+            <!-- small photo -->
+            <a href="{% url 'profile' %}">
+            <div class="d-flex justify-content-center align-items-center ">
+                <img src="{{user.profilePicture.url}}" width="30px" class="rounded-circle" alt="user">
+                <a href="#" class="custom-color-red fw-bold px-2">{{user.username}}
+            </div>
+            </a>
             <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger">Logout</button>

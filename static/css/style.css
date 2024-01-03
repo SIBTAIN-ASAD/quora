@@ -1,3 +1,237 @@
+body {
+
+    margin: 0 auto;
+    font-weight: 300 !important;
+    background-color: #b92b2720;
+    font-size: 1rem;
+    background: radial-gradient(circle,
+            transparent 20%, var(--lightyellow) 20%, var(--lightyellow) 80%,
+            transparent 80%, transparent),
+        radial-gradient(circle,
+            transparent 20%, var(--lightyellow) 20%, var(--lightyellow) 80%,
+            transparent 80%, transparent) 1rem 1rem,
+        linear-gradient(#b92b2720 .1rem, transparent .1rem) 0 -.05rem,
+        linear-gradient(90deg, #b92b2720 .1rem, var(--lightyellow) .1rem) -.05rem 0;
+    background-size: 2rem 2rem, 2rem 2rem, 1rem 1rem, 1rem 1rem;
+}
+/* bootstrap css override */
+.m-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+.m-btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+.m-btn-primary {
+    color: var(--white);
+    background-color: var(--primary);
+}
+.m-btn-secondary {
+    color: var(--white);
+    background-color: var(--black);
+}
+.m-btn-light {
+    color: var(--primary);
+    background-color: var(--white);
+}
+.m-btn-outline-primary {
+    color: var(--primary);
+    background-color: transparent;
+    border: .1rem solid var(--primary);
+}
+.m-btn-outline-secondary {
+    color: var(--black);
+    background-color: transparent;
+    border: .1rem solid var(--black);
+}
+.m-btn-outline-light {
+    color: var(--white);
+    background-color: transparent;
+    border: .1rem solid var(--white);
+}
+.m-btn:hover {
+    transform: scale(1.02);
+}
+.m-btn-primary:hover {
+    background-color: #A82A26;
+}
+.m-btn-outline:hover {
+    background-color: #F2F2F2;
+}
+p {
+    -webkit-user-select: none;
+    user-select: none;
+}
+.m-p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--primary);
+}
+.m-h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--primary);
+}
+.m-h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--primary);
+}
+.m-h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--primary);
+}
+.m-text-primary {
+    color: var(--primary);
+}
+.m-text-dark {
+    color: var(--black);
+}
+.m-text-light {
+    color: var(--white);
+}
+.m-text-yellow {
+    color: var(--lightyellow);
+}
+.m-text-gray {
+    color: var(--gray);
+}
+.m-text-positive {
+    color: #2A9D8F;
+}
+.m-text-negative {
+    color: #E76F51;
+}
+.m-bg-primary {
+    background-color: var(--primary);
+}
+.m-bg-dark {
+    background-color: var(--black);
+}
+.m-bg-light {
+    background-color: var(--white);
+}
+.m-bg-yellow {
+    background-color: var(--lightyellow);
+}
+.m-bg-gray {
+    background-color: var(--gray);
+}
+.m-border-primary {
+    border-color: var(--primary);
+}
+.m-border-dark {
+    border-color: var(--black);
+}
+.m-border-light {
+    border-color: var(--white);
+}
+.m-border-yellow {
+    border-color: var(--lightyellow);
+}
+.m-border-gray {
+    border-color: var(--gray);
+}
+.m-fs-1 {
+    font-size: 3rem;
+}
+.m-fs-2 {
+    font-size: 2.5rem;
+}
+.m-fs-3 {
+    font-size: 2rem;
+}
+.m-fs-4 {
+    font-size: 1.5rem;
+}
+.m-fs-5 {
+    font-size: 1.2rem;
+}
+.m-fs-6 {
+    font-size: 1rem;
+}
+.m-fs-7 {
+    font-size: 0.8rem;
+}
+.m-fw-200 {
+    font-weight: 200;
+}
+.m-fw-300 {
+    font-weight: 300;
+}
+.m-fw-400 {
+    font-weight: 400;
+}
+.m-fw-500 {
+    font-weight: 500;
+}
+.error {
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 400;
+    background-color: #a82a2620;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+}
+.m-form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.m-text-left {
+    text-align: left;
+}
+label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary);
+    margin-bottom: 0.3rem;
+}
+input {
+    width: 100%;
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    border: .1rem solid #ccc;
+    outline: none;
+    font-size: 1rem;
+    background-color: var(--lightyellow);
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+}
+input:focus {
+    transform: scale(1.02);
+    background-color: var(--primary);
+    color: var(--lightyellow);
+}
+textarea {
+    width: 100%;
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+    border: .1rem solid #ccc;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--black);
+    transition: all 0.3s ease-in-out;
+}
+a {
+    text-decoration: none;
+}
+.toast-body li {
+    list-style: none;
+}
+
+
 body{
     padding: 0;
     margin: 0;
@@ -13,7 +247,11 @@ body{
     align-items: center;
 }
 
- .label{
+.custom-color-red{
+    color: #dc3545 !important;
+}
+
+.label{
     text-align: left;
     color: #6e6969;
  }
@@ -33,7 +271,9 @@ body{
     left: 0;
     right: 0;
     top: 0;
-    bottom: 0
+    bottom: 0;
+    border-radius: 5px;
+
 }
 
 .profile-header .profile-header-cover:before {
@@ -48,7 +288,7 @@ body{
 
 .profile-header .profile-header-content {
     color: #fff;
-    padding: 25px
+    padding: 25px;
 }
 
 .profile-header-img {
@@ -659,4 +899,25 @@ select.form-control:not([size]):not([multiple]) {
 
 .text-danger, .text-red {
     color: #ff5b57!important;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif !important;
+}
+/* CSS variables */
+:root {
+    --white: #FFFFFF;
+    --black: #000000;
+    --primary: #A82400;
+    --lightyellow: #FAF8EB;
+    --gray: rgb(128, 127, 127);
+}
+html {
+    font-size: 100%;
 }
