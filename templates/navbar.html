@@ -30,7 +30,6 @@
             </li>
             </ul>
 
-
             <div class="d-flex justify-content-between">
             {% if user.is_authenticated %}
 
@@ -38,7 +37,7 @@
             <a href="{% url 'profile' %}">
             <div class="d-flex justify-content-center align-items-center ">
                 <img src="{{user.profilePicture.url}}" width="30px" class="rounded-circle" alt="user">
-                <a href="#" class="custom-color-red fw-bold px-2">{{user.username}}
+                <a href="#" class="custom-color-red fw-bold px-2">{{user.first_name}}
             </div>
             </a>
             <form method="post" action="{% url 'logout' %}">
