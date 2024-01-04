@@ -9,6 +9,26 @@ class ProfileQueries:
     '''
     This class contains all the queries related to the Profile model.
     '''
+    # return the likes and dislikes of the question
+    @staticmethod
+    def get_votes(question):
+        '''
+        This method returns the number of likes and dislikes of the question.
+        '''
+        likes = Vote.objects.filter(question=question, vote_type="L").count()
+        dislikes = Vote.objects.filter(question=question, vote_type="D").count()
+        return likes, dislikes
+    
+    # return the likes and dislikes of the answer
+    @staticmethod
+    def get_votes_answers(answer):
+        '''
+        This method returns the number of likes and dislikes of the answer.
+        '''
+        likes = Vote.objects.filter(answer=answer, vote_type="L").count()
+        dislikes = Vote.objects.filter(answer=answer, vote_type="D").count()
+        return likes, dislikes
+    
     @staticmethod
     def get_user_by_id(user_id):
         '''
@@ -23,14 +43,24 @@ class ProfileQueries:
         '''
 
         data_set = Question.objects.filter(author=user_id)
-        return data_set
+        for question in data_set:
+            likes, dislikes = ProfileQueries.get_votes(question)
+            question.likes = likes
+            question.dislikes = dislikes
+        return data_set , likes, dislikes
 
     @staticmethod
     def all_answers(user_id):
         '''
         This method returns all the answers given by the user with the given id.
         '''
-        return Answer.objects.filter(author=user_id)
+        data_set = Answer.objects.filter(author=user_id)
+        for answer in data_set:
+            likes, dislikes = ProfileQueries.get_votes_answers(answer)
+            answer.likes = likes
+            answer.dislikes = dislikes
+        return data_set
+    
 
     @staticmethod
     def all_topics(user_id):

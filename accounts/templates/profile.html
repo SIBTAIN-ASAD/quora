@@ -58,13 +58,42 @@
                                         <div class="question mb-4 pt-5 border-top border-1 ">
                                             <h4 class="fw-bold">{{ question.title }}</h4>
                                             <p class="mb-2">{{ question.description }}</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <a href="#" class="btn btn-danger btn-sm">Answer this question</a>
-                                                <div class="likes d-flex align-items-center">
-                                                    <span class="like-count"> 10 </span>
-                                                    <a href="#" class="like-btn mx-2 mr-2"><i class="fas fa-thumbs-up"></i></a>
+                                            <div class="">
+                                                <a href="#" class="btn btn-outline-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
+              
+                                                <!-- Answer form -->
+                                                <div class="collapse mt-3" id="answerForm{{ question.id }}">
+                                                    <form action="{% url 'answer_question' question.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="mb-3">
+                                                            <label for="answerInput " class="form-label fw-bold">Your Answer</label>
+                                                            <textarea class="form-control" id="answerInput" name="answer" rows="3" required></textarea>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-danger">Submit Answer</button>
+                                                    </form>
                                                 </div>
-                                            </div>
+                
+                
+                                                {% comment %} TODO: change forms for answers {% endcomment %}
+                                                <div class="d-flex align-items-center py-2 my-3">
+                                                    <!-- Like button -->
+                                                    <form action="{% url 'like_question' question.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn p-0 m-0">
+                                                            <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ question.likes }}</span>
+                                                            <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
+                                                        </button>
+                                                    </form>
+                                                    <!-- Dislike button -->
+                                                    <form action="{% url 'dislike_question' question.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="ms-3 btn p-0 m-0"> 
+                                                            <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ question.dislikes }}</span>
+                                                            <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                              </div>
                                         </div>
                                     {% endfor %}
                                 </div>
@@ -79,7 +108,27 @@
                                             <!-- Related Questions -->
                                             <span class="btn-outline-danger btn btn-sm p-2 fw-bold bold rounded-1"> Q: {{ answer.question.title }}</span>
                                         </div>
-                                    {% endfor %}
+
+                                {% comment %} TODO: change forms for answers {% endcomment %}
+                                <div class="d-flex align-items-center py-2 my-3">
+                                    <!-- Like button -->
+                                    <form action="{% url 'like_answer' answer.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn p-0 m-0">
+                                            <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ answer.likes }}</span>
+                                            <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
+                                        </button>
+                                    </form>
+                                    <!-- Dislike button -->
+                                    <form action="{% url 'dislike_answer' answer.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="ms-3 btn p-0 m-0"> 
+                                            <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ answer.dislikes }}</span>
+                                            <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                {% endfor %}
                                 </div>
                             </div>
                         </div>

@@ -16,16 +16,16 @@
         
         <ul class="navbar-nav mx-auto mt-2 mt-lg-0 mx-auto d-flex">
             <li class="nav-item active">
-            <a class="nav-link text-danger fw-medium px-4" href="{% url 'home'%}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link text-danger fw-bold px-4" href="{% url 'home'%}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text-danger fw-medium px-4" href="#">Product</span></a>
+            <a class="nav-link text-danger fw-bold px-4" href="#">Product</span></a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text-danger fw-medium px-4" href="#">Pricing</span></a>
+            <a class="nav-link text-danger fw-bold px-4" href="#">Pricing</span></a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text-danger fw-medium px-4" href="#">Contract</span></a>
+            <a class="nav-link text-danger fw-bold px-4" href="#">Contract</span></a>
             </li>
             </ul>
 
@@ -36,7 +36,7 @@
             <a href="{% url 'profile' %}">
             <div class="d-flex justify-content-center align-items-center ">
                 <img src="{{user.profilePicture.url}}" width="30px" class="rounded-circle" alt="user">
-                <a href="#" class="custom-color-red fw-bold px-2">{{user.first_name}}
+                <a href="{% url 'profile' %}" class="custom-color-red fw-bold px-2">{{user.first_name}}
             </div>
             </a>
             <form method="post" action="{% url 'logout' %}">

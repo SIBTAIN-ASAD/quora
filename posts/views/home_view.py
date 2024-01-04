@@ -93,6 +93,48 @@ class DislikeQuestionView(LoginRequiredMixin, View):
         # Redirect back to the question or wherever you want
         return redirect('/', question_id=question_id)
     
+class LikeAnswerView(LoginRequiredMixin, View):
+    '''
+    This class handles the like answer view.
+    '''
+    def post(self, request, answer_id, *args, **kwargs):
+        '''
+        This method handles the post request.
+        '''
+        answer = get_object_or_404(Answer, pk=answer_id)
+        user = self.request.user
+
+        # Check if the user has already liked the answer
+        existing_vote = Vote.objects.filter(answer=answer, author=user, vote_type='L').first()
+
+        if not existing_vote:
+            # If the user hasn't liked the answer, create a new like
+            Vote.objects.create(answer=answer, author=user, vote_type='L')
+
+        # Redirect back to the question or wherever you want
+        return redirect('/', answer_id=answer_id)
+
+class DislikeAnswerView(LoginRequiredMixin, View):
+    '''
+    This class handles the dislike answer view.
+    '''
+    def post(self, request, answer_id, *args, **kwargs):
+        '''
+        This method handles the post request.
+        '''
+        answer = get_object_or_404(Answer, pk=answer_id)
+        user = self.request.user
+
+        # Check if the user has already disliked the answer
+        existing_vote = Vote.objects.filter(answer=answer, author=user, vote_type='D').first()
+
+        if not existing_vote:
+            # If the user hasn't disliked the answer, create a new dislike
+            Vote.objects.create(answer=answer, author=user, vote_type='D')
+
+        # Redirect back to the question or wherever you want
+        return redirect('/', answer_id=answer_id)
+
 class AnswerQuestionView(LoginRequiredMixin, View):
     '''
     This class handles the answer question view.

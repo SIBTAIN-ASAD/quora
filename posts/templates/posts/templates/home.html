@@ -11,7 +11,7 @@
     <!-- Search bar -->
     <form class="d-flex mb-3 justify-content-center" method="post" action="{% url 'search' %}">
         {% csrf_token %}
-        <input class="form-control me-4 border-0 rounded py-2 rounded-sm" type="search" placeholder="Search by topics or question description" aria-label="Search" name="search">
+        <input class="form-control me-4 border-0 rounded py-2 rounded-sm" type="search" placeholder="Search by topics or question" aria-label="Search" name="search">
         <button class="btn btn-outline-danger rounded rounded-sm" type="submit">Search</button>
     </form>
 
@@ -36,7 +36,7 @@
             </div>
         {% endif %}
 
-        {% for question, likes, dislikes in searched_questions %}
+        {% for question in searched_questions %}
         <div class="card mb-3 border-0">
           <div class="card-body">
               <a href="{% url 'profile' %}">
@@ -47,17 +47,17 @@
               </a>
               <h5 class="card-title py-2 m-0 p-0 custom-color-red">{{ question.title }}</h5>
               <p class="card-text p-0 m-0 pb-2">{{ question.description }}</p>
-              <a href="#" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
+              <a href="#" class="btn btn-outline-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
               
               <!-- Answer form -->
               <div class="collapse mt-3" id="answerForm{{ question.id }}">
                   <form action="{% url 'answer_question' question.id %}" method="post">
                       {% csrf_token %}
                       <div class="mb-3">
-                          <label for="answerInput" class="form-label">Your Answer</label>
+                        <label for="answerInput" class="form-label fw-bold">Your Answer</label>
                           <textarea class="form-control" id="answerInput" name="answer" rows="3" required></textarea>
                       </div>
-                      <button type="submit" class="btn btn-primary m-btn-outline">Submit Answer</button>
+                      <button type="submit" class="btn btn-danger">Submit Answer</button>
                   </form>
               </div>
               
@@ -66,7 +66,7 @@
                   <form action="{% url 'like_question' question.id %}" method="post">
                       {% csrf_token %}
                       <button type="submit" class="btn p-0 m-0">
-                          <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                          <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ question.likes }}</span>
                           <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
                       </button>
                   </form>
@@ -74,7 +74,7 @@
                   <form action="{% url 'dislike_question' question.id %}" method="post">
                       {% csrf_token %}
                       <button type="submit" class="ms-3 btn p-0 m-0"> 
-                          <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                          <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ question.dislikes }}</span>
                           <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
                       </button>
                   </form>
@@ -96,7 +96,7 @@
                       <span class="text-dark rounded rounded-sm ms-2">({{ question.answer_set.count }})</span>
                   </div>
 
-                  {% for answer in question.answer_set.all %}
+                  {% for answer in question.answers %}
                   <div class="pb-2">
                     <div class="mb-2">
                         <img src="{{ user.profilePicture.url }}" width="24px" class="rounded-circle" alt="user">
@@ -107,18 +107,18 @@
                     {% comment %} TODO: change forms for answers {% endcomment %}
                     <div class="d-flex align-items-center py-2 my-3 border-bottom border-top">
                       <!-- Like button -->
-                      <form action="{% url 'like_question' question.id %}" method="post">
+                      <form action="{% url 'like_answer' answer.id %}" method="post">
                           {% csrf_token %}
                           <button type="submit" class="btn p-0 m-0">
-                              <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                              <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ answer.likes }}</span>
                               <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
                           </button>
                       </form>
                       <!-- Dislike button -->
-                      <form action="{% url 'dislike_question' question.id %}" method="post">
+                      <form action="{% url 'dislike_answer' answer.id %}" method="post">
                           {% csrf_token %}
                           <button type="submit" class="ms-3 btn p-0 m-0"> 
-                              <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                              <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ answer.dislikes }}</span>
                               <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
                           </button>
                       </form>
@@ -130,7 +130,7 @@
       </div>
   {% endfor %}
 
-        {% for question, likes, dislikes in followed_questions %}
+        {% for question in followed_questions %}
             <div class="card mb-3 border-0">
                 <div class="card-body">
                     <a href="{% url 'profile' %}">
@@ -141,17 +141,17 @@
                     </a>
                     <h5 class="card-title py-2 m-0 p-0 custom-color-red">{{ question.title }}</h5>
                     <p class="card-text p-0 m-0 pb-2">{{ question.description }}</p>
-                    <a href="#" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
+                    <a href="#" class="btn btn-outline-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
                     
                     <!-- Answer form -->
                     <div class="collapse mt-3" id="answerForm{{ question.id }}">
                         <form action="{% url 'answer_question' question.id %}" method="post">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="answerInput" class="form-label">Your Answer</label>
+                              <label for="answerInput" class="form-label fw-bold">Your Answer</label>
                                 <textarea class="form-control" id="answerInput" name="answer" rows="3" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary m-btn-outline">Submit Answer</button>
+                            <button type="submit" class="btn btn-danger">Submit Answer</button>
                         </form>
                     </div>
                     
@@ -160,7 +160,7 @@
                         <form action="{% url 'like_question' question.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn p-0 m-0">
-                                <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                                <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ question.likes }}</span>
                                 <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
                             </button>
                         </form>
@@ -168,7 +168,7 @@
                         <form action="{% url 'dislike_question' question.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="ms-3 btn p-0 m-0"> 
-                                <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                                <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ question.dislikes }}</span>
                                 <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
                             </button>
                         </form>
@@ -190,7 +190,7 @@
                             <span class="text-dark rounded rounded-sm ms-2">({{ question.answer_set.count }})</span>
                         </div>
 
-                        {% for answer in question.answer_set.all %}
+                        {% for answer in question.answers %}
                         <div class="pb-2">
                           <div class="mb-2">
                               <img src="{{ user.profilePicture.url }}" width="24px" class="rounded-circle" alt="user">
@@ -201,18 +201,18 @@
                           {% comment %} TODO: change forms for answers {% endcomment %}
                           <div class="d-flex align-items-center py-2 my-3 border-bottom border-top">
                             <!-- Like button -->
-                            <form action="{% url 'like_question' question.id %}" method="post">
+                            <form action="{% url 'like_answer' answer.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn p-0 m-0">
-                                    <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                                    <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ answer.likes }}</span>
                                     <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
                                 </button>
                             </form>
                             <!-- Dislike button -->
-                            <form action="{% url 'dislike_question' question.id %}" method="post">
+                            <form action="{% url 'dislike_answer' answer.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="ms-3 btn p-0 m-0"> 
-                                    <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                                    <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ answer.dislikes }}</span>
                                     <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
                                 </button>
                             </form>

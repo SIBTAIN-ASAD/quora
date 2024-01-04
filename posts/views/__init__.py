@@ -6,4 +6,6 @@ from .home_view import ( HomePageView,
                         DislikeQuestionView,
                         AnswerQuestionView, 
                         SearchView,
+                        LikeAnswerView,
+                        DislikeAnswerView,
                         )

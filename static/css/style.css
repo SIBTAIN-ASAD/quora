@@ -1,19 +1,14 @@
 body {
-
     margin: 0 auto;
     font-weight: 300 !important;
-    background-color: #b92b2720;
     font-size: 1rem;
-    background: radial-gradient(circle,
-            transparent 20%, var(--lightyellow) 20%, var(--lightyellow) 80%,
-            transparent 80%, transparent),
-        radial-gradient(circle,
-            transparent 20%, var(--lightyellow) 20%, var(--lightyellow) 80%,
-            transparent 80%, transparent) 1rem 1rem,
-        linear-gradient(#b92b2720 .1rem, transparent .1rem) 0 -.05rem,
-        linear-gradient(90deg, #b92b2720 .1rem, var(--lightyellow) .1rem) -.05rem 0;
-    background-size: 2rem 2rem, 2rem 2rem, 1rem 1rem, 1rem 1rem;
+    background: radial-gradient(circle, #cdcdcd 10%, transparent 11%);
+    background-size: 1em 1em;
+    background-color: #e6e6e6;
+    opacity: 1
 }
+
+
 /* bootstrap css override */
 .m-btn {
     padding: 0.5rem 1rem;
