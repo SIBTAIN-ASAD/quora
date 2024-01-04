@@ -5,20 +5,142 @@
 {% block content %}
 
 <!-- Followed Questions Section -->
-{% if followed_questions %}
-    <div class="container w-75 pt-5">
-        <h2 class="mb-5"></h2>
+<div class="container w-75 pt-5">
+    <h2 class="mb-5"></h2>
+    
+    <!-- Search bar -->
+    <form class="d-flex mb-3 justify-content-center" method="post" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input class="form-control me-4 border-0 rounded py-2 rounded-sm" type="search" placeholder="Search by topics or question description" aria-label="Search" name="search">
+        <button class="btn btn-outline-danger rounded rounded-sm" type="submit">Search</button>
+    </form>
+
+    {% if not followed_questions and not searched_questions and not searched_topics %}
+    <h3 class="">No results found for "{{search_str}}"</h3>
+    {% endif %}
+
+    
+    {% if followed_questions or searched_questions %}
+        <!-- Searched Questions -->
+        {% if searched_questions or searched_topics %}
+            <h3 class="mb-3"> Searched Reult for "{{search_str}}"</h3>
+        {% endif %}
+
+        {% if searched_topics %}
+            <div class="mt-3 mb-3">
+                <!-- Topics related to questions -->
+                <strong class="fw-bold custom-color-red">Found topics:</strong>
+                {% for topic in searched_topics %}
+                  <span class="badge bg-secondary">{{ topic.name }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% for question, likes, dislikes in searched_questions %}
+        <div class="card mb-3 border-0">
+          <div class="card-body">
+              <a href="{% url 'profile' %}">
+                  <div class="">
+                      <img src="{{ user.profilePicture.url }}" width="36px" class="rounded-circle" alt="user">
+                      <span class="fw-bold custom-color-red px-2">{{ user.username }}</span>
+                  </div>
+              </a>
+              <h5 class="card-title py-2 m-0 p-0 custom-color-red">{{ question.title }}</h5>
+              <p class="card-text p-0 m-0 pb-2">{{ question.description }}</p>
+              <a href="#" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
+              
+              <!-- Answer form -->
+              <div class="collapse mt-3" id="answerForm{{ question.id }}">
+                  <form action="{% url 'answer_question' question.id %}" method="post">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                          <label for="answerInput" class="form-label">Your Answer</label>
+                          <textarea class="form-control" id="answerInput" name="answer" rows="3" required></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary m-btn-outline">Submit Answer</button>
+                  </form>
+              </div>
+              
+              <div class="d-flex align-items-center py-2 my-3 border-bottom border-top">
+                  <!-- Like button -->
+                  <form action="{% url 'like_question' question.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn p-0 m-0">
+                          <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                          <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
+                      </button>
+                  </form>
+                  <!-- Dislike button -->
+                  <form action="{% url 'dislike_question' question.id %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="ms-3 btn p-0 m-0"> 
+                          <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                          <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
+                      </button>
+                  </form>
+              </div>
+              
+              <!-- Topics related to questions -->
+              <div class="mt-3">
+                  <span class="fw-bold custom-color-red">Topics:</span>
+                  {% for topic in question.topics.all %}
+                      <span class="m-0 p-0 p-2 rounded border-secondary border rounded-sm">{{ topic.name }}</span>
+                  {% endfor %}
+              </div>
+              
+              <!-- Answers of questions -->
+              <div class="mt-3 p-0 bg-light rounded rounded-sm p-2 px-3">
+                  {% comment %} heading {% endcomment %}
+                  <div class="d-flex align-items-center pb-3">
+                      <h5 class="card-title py-2 m-0 p-0 fs-6 custom-color-red">Answers:</h5>
+                      <span class="text-dark rounded rounded-sm ms-2">({{ question.answer_set.count }})</span>
+                  </div>
+
+                  {% for answer in question.answer_set.all %}
+                  <div class="pb-2">
+                    <div class="mb-2">
+                        <img src="{{ user.profilePicture.url }}" width="24px" class="rounded-circle" alt="user">
+                        <span class="fw-normal custom-color-red ps-2">{{ user.username }}</span>
+                    </div>
+                    <p class="card-text ps-0 pt-1 m-0">{{ answer.description }}</p>
+
+                    {% comment %} TODO: change forms for answers {% endcomment %}
+                    <div class="d-flex align-items-center py-2 my-3 border-bottom border-top">
+                      <!-- Like button -->
+                      <form action="{% url 'like_question' question.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="btn p-0 m-0">
+                              <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                              <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
+                          </button>
+                      </form>
+                      <!-- Dislike button -->
+                      <form action="{% url 'dislike_question' question.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="ms-3 btn p-0 m-0"> 
+                              <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                              <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
+                          </button>
+                      </form>
+                  </div>
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+  {% endfor %}
+
         {% for question, likes, dislikes in followed_questions %}
-            <div class="card mb-3">
+            <div class="card mb-3 border-0">
                 <div class="card-body">
                     <a href="{% url 'profile' %}">
-                        <div class="d-inline-block">
-                            <img src="{{ user.profilePicture.url }}" width="23px" class="rounded-circle" alt="user">
+                        <div class="">
+                            <img src="{{ user.profilePicture.url }}" width="36px" class="rounded-circle" alt="user">
+                            <span class="fw-bold custom-color-red px-2">{{ user.username }}</span>
                         </div>
                     </a>
-                    <h5 class="card-title mx-2 mb-5 d-inline">{{ question.title }}</h5>
-                    <p class="card-text">{{ question.description }}</p>
-                    <p>Likes: {{ likes }}, Dislikes: {{ dislikes }}</p>
+                    <h5 class="card-title py-2 m-0 p-0 custom-color-red">{{ question.title }}</h5>
+                    <p class="card-text p-0 m-0 pb-2">{{ question.description }}</p>
                     <a href="#" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#answerForm{{ question.id }}">Answer this question</a>
                     
                     <!-- Answer form -->
@@ -29,40 +151,73 @@
                                 <label for="answerInput" class="form-label">Your Answer</label>
                                 <textarea class="form-control" id="answerInput" name="answer" rows="3" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit Answer</button>
+                            <button type="submit" class="btn btn-primary m-btn-outline">Submit Answer</button>
                         </form>
                     </div>
                     
-                    <div class="d-flex align-items-center mt-3">
+                    <div class="d-flex align-items-center py-2 my-3 border-bottom border-top">
                         <!-- Like button -->
                         <form action="{% url 'like_question' question.id %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-link">
-                                <i class="fas fa-thumbs-up"></i> Like
+                            <button type="submit" class="btn p-0 m-0">
+                                <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                                <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
                             </button>
                         </form>
                         <!-- Dislike button -->
                         <form action="{% url 'dislike_question' question.id %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-link">
-                                <i class="fas fa-thumbs-down"></i> Dislike
+                            <button type="submit" class="ms-3 btn p-0 m-0"> 
+                                <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                                <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
                             </button>
                         </form>
                     </div>
                     
                     <!-- Topics related to questions -->
                     <div class="mt-3">
-                        <strong>Topics:</strong>
+                        <span class="fw-bold custom-color-red">Topics:</span>
                         {% for topic in question.topics.all %}
-                            <span class="badge bg-secondary">{{ topic.name }}</span>
+                            <span class="m-0 p-0 p-2 rounded border-secondary border rounded-sm">{{ topic.name }}</span>
                         {% endfor %}
                     </div>
                     
                     <!-- Answers of questions -->
-                    <div class="mt-3">
-                        <h5>Answers:</h5>
+                    <div class="mt-3 p-0 bg-light rounded rounded-sm p-2 px-3">
+                        {% comment %} heading {% endcomment %}
+                        <div class="d-flex align-items-center pb-3">
+                            <h5 class="card-title py-2 m-0 p-0 fs-6 custom-color-red">Answers:</h5>
+                            <span class="text-dark rounded rounded-sm ms-2">({{ question.answer_set.count }})</span>
+                        </div>
+
                         {% for answer in question.answer_set.all %}
-                            <p>{{ answer.description }}</p>
+                        <div class="pb-2">
+                          <div class="mb-2">
+                              <img src="{{ user.profilePicture.url }}" width="24px" class="rounded-circle" alt="user">
+                              <span class="fw-normal custom-color-red ps-2">{{ user.username }}</span>
+                          </div>
+                          <p class="card-text ps-0 pt-1 m-0">{{ answer.description }}</p>
+
+                          {% comment %} TODO: change forms for answers {% endcomment %}
+                          <div class="d-flex align-items-center py-2 my-3 border-bottom border-top">
+                            <!-- Like button -->
+                            <form action="{% url 'like_question' question.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn p-0 m-0">
+                                    <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ likes }}</span>
+                                    <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
+                                </button>
+                            </form>
+                            <!-- Dislike button -->
+                            <form action="{% url 'dislike_question' question.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="ms-3 btn p-0 m-0"> 
+                                    <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ dislikes }}</span>
+                                    <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
+                                </button>
+                            </form>
+                        </div>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -70,5 +225,6 @@
         {% endfor %}
     </div>
 {% endif %}
+
 
 {% endblock %}
