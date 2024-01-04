@@ -7,7 +7,6 @@
         <img src="{% static 'img/image.png'%}" width="30%" class="p-0 m-0" alt="logo">
         </div>
 
-        <button class="btn btn-sm btn-light text-primary my-2 my-sm-0 d-lg-inline-block fw-bold py-2 px-2 d-inline-block d-lg-none d-xl-none " type="submit">Login</button>
 
         <button class="border-0 p-0 m-0 navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon fa-solid fa-bars-staggered text-light"></span>
@@ -17,16 +16,16 @@
         
         <ul class="navbar-nav mx-auto mt-2 mt-lg-0 mx-auto d-flex">
             <li class="nav-item active">
-            <a class="nav-link text-dark fw-medium px-4" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link text-danger fw-medium px-4" href="{% url 'home'%}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-            <a class="nav-link text-dark fw-medium px-4" href="#">Product</span></a>
+            <li class="nav-item">
+            <a class="nav-link text-danger fw-medium px-4" href="#">Product</span></a>
             </li>
-            <li class="nav-item active">
-            <a class="nav-link text-dark fw-medium px-4" href="#">Pricing</span></a>
+            <li class="nav-item">
+            <a class="nav-link text-danger fw-medium px-4" href="#">Pricing</span></a>
             </li>
-            <li class="nav-item active">
-            <a class="nav-link text-dark fw-medium px-4" href="#">Contract</span></a>
+            <li class="nav-item">
+            <a class="nav-link text-danger fw-medium px-4" href="#">Contract</span></a>
             </li>
             </ul>
 
