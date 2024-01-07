@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 # authenticated mixins in django
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .common import ProfileQueries
-
+from .models import CustomUser
 
 
 class SignUpView(CreateView):
@@ -54,3 +54,24 @@ class CustomLoginView(LoginView):
         if self.request.user.is_authenticated:
             return redirect("profile")
         return super().get(request, *args, **kwargs)
+
+class UserProfileUpdateView(LoginRequiredMixin, TemplateView):
+    '''
+    View for updating the user profile
+    '''
+    template_name = "registration/update_profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["user"] = user
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        user.first_name = request.POST.get('first_name')
+        user.email = request.POST.get('email')
+        user.age = request.POST.get('age')
+        user.profilePicture = request.FILES.get('profilePicture')
+        user.save()
+        return redirect("profile")
