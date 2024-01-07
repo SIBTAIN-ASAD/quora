@@ -14,9 +14,14 @@ services:
       - .env
   db:
     image: postgres:latest
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "5432:${DATABASE_PORT}"
+
+volumes:
+  postgres-data:
