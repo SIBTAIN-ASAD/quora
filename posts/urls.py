@@ -13,6 +13,8 @@ from .views import (HomePageView,
                     AboutView,
                     AddQuestionView,
                     AddQuestionFormView,
+                    TopicFollowView,
+                    TopicUnfollowView,
                     )
 
 urlpatterns = [
@@ -33,5 +35,6 @@ urlpatterns = [
 
     path('add_topic/', AddTopicView.as_view(), name='add_topic'),
     path('topic/<int:topic_id>/', TopicPageView.as_view(), name='topic_page'),
-    path('topic/<int:topic_id>/<int:page>/', TopicPageView.as_view(), name='topic_page_paginated'),
+    path('topic/<int:topic_id>/follow/', TopicFollowView.as_view(), name='topic_follow'),
+    path('topic/<int:topic_id>/unfollow/', TopicUnfollowView.as_view(), name='topic_unfollow'),
 ]

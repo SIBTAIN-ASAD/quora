@@ -181,6 +181,45 @@ class QuestionPageQueries:
             answer.dislikes = dislikes
         question.answers = answers
         return question
+    
+    @staticmethod
+    def get_all_questions():
+        '''
+        This method returns all the questions along with their likes and dislikes.
+        Also sort the questions by number of likes.
+        Also add the answers of the question and their likes and dislikes.
+        '''
+        questions = Question.objects.all()
+        for question in questions:
+            likes, dislikes = HomePageQueries.get_votes(question)
+            question.likes = likes
+            question.dislikes = dislikes
+
+            # add the answers of the question and their likes and dislikes
+            answers = Answer.objects.filter(question=question)
+
+            answers_list = []
+            
+            for answer in answers:
+                likes, dislikes = HomePageQueries.get_votes_answers(answer)
+                answer.likes = likes
+                answer.dislikes = dislikes
+                answers_list.append(answer)
+
+            # sort the answers by number of likes
+            answers_list.sort(key=lambda x: x.likes, reverse=True)
+
+            # take only the first two answers
+            answers_list = answers_list[:2]
+
+            question.answers = answers_list
+
+        questions_list = list(questions)
+
+        # sort the questions by number of likes
+        questions_list.sort(key=lambda x: x.likes, reverse=True)
+
+        return questions_list
 
 class TopicPageQueries:
     '''
@@ -190,79 +229,40 @@ class TopicPageQueries:
     def get_topic_questions(topic):
         '''
         This method returns all the questions of the topic.
+        Paginate the questions by 10. 
+        Get the likes and dislikes of the questions.
+        Sort the questions by number of likes.
+        Add the answers of the question and their likes and dislikes.
         '''
-        questions = Question.objects.filter(topic=topic)
-        return questions
-
-    @staticmethod
-    def get_topics():
-        '''
-        This method returns all the topics.
-        '''
-        topics = Topic.objects.all()
-        return topics
-
-    @staticmethod
-    def get_topic_questions_paginated(topic, page):
-        '''
-        This method returns the questions of the topic in the given page.
-        '''
-        questions = TopicPageQueries.get_topic_questions(topic)
+        questions = Question.objects.filter(topics=topic)
         paginator = Paginator(questions, 10)
-        questions = paginator.get_page(page)
-        return questions
+        page_number = 1
+        questions = paginator.get_page(page_number)
+        for question in questions:
+            likes, dislikes = HomePageQueries.get_votes(question)
+            question.likes = likes
+            question.dislikes = dislikes
 
-    @staticmethod
-    def get_topic_questions_paginated_by_user(topic, user, page):
-        '''
-        This method returns the questions of the topic in the given page.
-        '''
-        questions = TopicPageQueries.get_topic_questions(topic)
-        questions = questions.filter(user=user)
-        paginator = Paginator(questions, 10)
-        questions = paginator.get_page(page)
-        return questions
+            # add the answers of the question and their likes and dislikes
+            answers = Answer.objects.filter(question=question)
 
-    @staticmethod
-    def get_topic_questions_paginated_by_user_and_date(topic, user, page):
-        '''
-        This method returns the questions of the topic in the given page.
-        '''
-        questions = TopicPageQueries.get_topic_questions(topic)
-        questions = questions.filter(user=user).order_by('-date')
-        paginator = Paginator(questions, 10)
-        questions = paginator.get_page(page)
-        return questions
+            answers_list = []
+            
+            for answer in answers:
+                likes, dislikes = HomePageQueries.get_votes_answers(answer)
+                answer.likes = likes
+                answer.dislikes = dislikes
+                answers_list.append(answer)
 
-    @staticmethod
-    def get_topic_questions_paginated_by_user_and_likes(topic, user, page):
-        '''
-        This method returns the questions of the topic in the given page.
-        '''
-        questions = TopicPageQueries.get_topic_questions(topic)
-        questions = questions.filter(user=user).order_by('-likes')
-        paginator = Paginator(questions, 10)
-        questions = paginator.get_page(page)
-        return questions
+            # sort the answers by number of likes
+            answers_list.sort(key=lambda x: x.likes, reverse=True)
 
-    @staticmethod
-    def get_topic_questions_paginated_by_user_and_dislikes(topic, user, page):
-        '''
-        This method returns the questions of the topic in the given page.
-        '''
-        questions = TopicPageQueries.get_topic_questions(topic)
-        questions = questions.filter(user=user).order_by('-dislikes')
-        paginator = Paginator(questions, 10)
-        questions = paginator.get_page(page)
-        return questions
+            # take only the first two answers
+            answers_list = answers_list[:2]
 
-    @staticmethod
-    def get_topic_questions_paginated_by_date(topic, page):
-        '''
-        This method returns the questions of the topic in the given page.
-        '''
-        questions = TopicPageQueries.get_topic_questions(topic)
-        questions = questions.order_by('-date')
-        paginator = Paginator(questions, 10)
-        questions = paginator.get_page(page)
-        return questions
+            question.answers = answers_list
+
+        questions_list = list(questions)
+        questions_list.sort(key=lambda x: x.likes, reverse=True)
+        return questions_list
+    

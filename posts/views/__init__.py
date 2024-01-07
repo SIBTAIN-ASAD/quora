@@ -5,7 +5,9 @@ from .home_view import (HomePageView,
                         SearchView,)
 
 from .topic_view import (AddTopicView,
-                         TopicPageView,)
+                        TopicPageView,
+                        TopicFollowView,
+                        TopicUnfollowView,)
 
 from .question_view import (QuestoinView,
                             AddQuestionView,
