@@ -29,7 +29,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context["user"] = user
-        context["questions"], context['qlikes'], context['qdislikes'] = ProfileQueries.all_questions(user.id)
+        data, likes, dislikes = ProfileQueries.all_questions(user.id)
+        if data is not None and likes is not None and dislikes is not None:
+            context["questions"] = data
+            context['qlikes'] = likes
+            context['qdislikes'] = dislikes
         context["answers"] = ProfileQueries.all_answers(user.id)
         context["topics"] = ProfileQueries.all_topics(user.id)
         context["votes"] = ProfileQueries.all_votes(user.id)

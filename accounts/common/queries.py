@@ -43,6 +43,9 @@ class ProfileQueries:
         '''
 
         data_set = Question.objects.filter(author=user_id)
+        likes = 0
+        dislikes = 0
+
         for question in data_set:
             likes, dislikes = ProfileQueries.get_votes(question)
             question.likes = likes
@@ -55,6 +58,10 @@ class ProfileQueries:
         This method returns all the answers given by the user with the given id.
         '''
         data_set = Answer.objects.filter(author=user_id)
+
+        likes = 0
+        dislikes = 0
+
         for answer in data_set:
             likes, dislikes = ProfileQueries.get_votes_answers(answer)
             answer.likes = likes
