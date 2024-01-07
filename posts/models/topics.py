@@ -1,5 +1,4 @@
 from django.db import models
-from .questions import Question
 from cloudinary.models import CloudinaryField
 
 # Create your models here.
