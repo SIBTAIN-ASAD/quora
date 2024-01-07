@@ -18,7 +18,7 @@ class ProfileQueries:
         likes = Vote.objects.filter(question=question, vote_type="L").count()
         dislikes = Vote.objects.filter(question=question, vote_type="D").count()
         return likes, dislikes
-    
+
     # return the likes and dislikes of the answer
     @staticmethod
     def get_votes_answers(answer):
@@ -28,7 +28,7 @@ class ProfileQueries:
         likes = Vote.objects.filter(answer=answer, vote_type="L").count()
         dislikes = Vote.objects.filter(answer=answer, vote_type="D").count()
         return likes, dislikes
-    
+
     @staticmethod
     def get_user_by_id(user_id):
         '''
@@ -60,7 +60,6 @@ class ProfileQueries:
             answer.likes = likes
             answer.dislikes = dislikes
         return data_set
-    
 
     @staticmethod
     def all_topics(user_id):

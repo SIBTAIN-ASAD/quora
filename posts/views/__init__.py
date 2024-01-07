@@ -14,3 +14,4 @@ from .topic_view import (AddTopicView,
                         )
 from .question_view import (QuestoinView,
                             )
+from .about_view import AboutView

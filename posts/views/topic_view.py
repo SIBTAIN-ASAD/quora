@@ -2,21 +2,26 @@
 Views for the Topic model.
 '''
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from posts.models import Topic, Question
-from django.core.paginator import Paginator
 from posts.common.queries import TopicPageQueries
 
 class AddTopicView(CreateView):
+    '''
+    View for adding a new topic
+    '''
     model = Topic
     template_name = 'topic.html'
     fields = ['title', 'description']
     success_url = reverse_lazy('home')
 
 class TopicPageView(ListView):
+    '''
+    View for displaying the topic page
+    '''
     model = Question
     template_name = 'posts/templates/topic.html'
     context_object_name = 'questions'
@@ -43,9 +48,3 @@ class TopicPageView(ListView):
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get('paginate_by', self.paginate_by)
-
-    def get_paginate_orphans(self):
-        return self.request.GET.get('paginate_orphans', 0)
-
-    def get_paginate_allow_empty(self):
-        return self.request.GET.get('paginate_allow_empty', False)

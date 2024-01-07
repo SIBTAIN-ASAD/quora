@@ -10,6 +10,7 @@ from .views import (HomePageView,
                     AddTopicView,
                     TopicPageView,
                     QuestoinView,
+                    AboutView,
                     )
 
 urlpatterns = [
@@ -23,6 +24,6 @@ urlpatterns = [
     path('add_topic/', AddTopicView.as_view(), name='add_topic'),
     path('topic/<int:topic_id>/', TopicPageView.as_view(), name='topic_page'),
     path('topic/<int:topic_id>/<int:page>/', TopicPageView.as_view(), name='topic_page_paginated'),
-
     path('question/<int:question_id>/', QuestoinView.as_view(), name='question_page'),
+    path('about/<str:target_username>', AboutView.as_view(), name='about'),
 ]
