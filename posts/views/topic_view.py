@@ -8,15 +8,20 @@ from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from posts.models import Topic, Question
 from posts.common.queries import TopicPageQueries
+from django.contrib.auth.mixins import LoginRequiredMixin
+from posts.forms import AddTopicForm
 
-class AddTopicView(CreateView):
+class AddTopicView(LoginRequiredMixin, CreateView):
     '''
     View for adding a new topic
     '''
-    model = Topic
-    template_name = 'topic.html'
-    fields = ['title', 'description']
+    form_class = AddTopicForm
+    template_name = 'posts/templates/add_topic.html'
     success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class TopicPageView(ListView):
     '''

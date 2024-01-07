@@ -45,4 +45,3 @@ class SearchView(LoginRequiredMixin, TemplateView):
         context["search_str"] = request.POST.get('search')
 
         return self.render_to_response(context)
-
