@@ -16,7 +16,11 @@
         </form>
 
         {% if not followed_questions and not searched_questions and not searched_topics %}
-            <h3 class="">No results found for "{{search_str}}"</h3>
+            {% if not search_str %}
+                <h3 class="custom-color-red fw-bold">You are not following any Topic</h3>
+            {% else %}
+                <h3 class="custom-color-red fw-bold">No results found for "{{search_str}}"</h3>
+            {% endif %}
         {% endif %}
 
         {% if followed_questions or searched_questions %}
