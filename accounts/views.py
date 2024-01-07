@@ -9,8 +9,6 @@ from django.shortcuts import redirect
 # authenticated mixins in django
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .common import ProfileQueries
-from .models import CustomUser
-
 
 class SignUpView(CreateView):
     '''
@@ -73,5 +71,6 @@ class UserProfileUpdateView(LoginRequiredMixin, TemplateView):
         user.email = request.POST.get('email')
         user.age = request.POST.get('age')
         user.profilePicture = request.FILES.get('profilePicture')
+        user.gender = request.POST.get("gender")
         user.save()
         return redirect("profile")

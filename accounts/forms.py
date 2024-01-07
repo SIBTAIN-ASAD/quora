@@ -10,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
         This class handles the meta data of the custom user creation form.
         '''
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ( "age", "email", "profilePicture", "first_name")
+        fields = UserCreationForm.Meta.fields + ( "age", "email", "profilePicture", "first_name", "gender")
 
 class CustomUserChangeForm(UserChangeForm):
     '''
