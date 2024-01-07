@@ -32,7 +32,7 @@
                     <!-- Choice of topics -->
                     <div class="mb-3">
                         <select class="form-select" id="questionTopicsInput" name="topics" aria-label="Select Topics" required>
-                            <option selected disabled value="">Select Topic</option>
+                            <option selected disabled value="">Select Topics</option>
                             {% for topic in topics %}
                                 <option value="{{ topic.id }}">{{ topic.name }}</option>
                             {% endfor %}
