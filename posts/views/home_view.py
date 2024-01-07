@@ -9,7 +9,6 @@ from posts.common.queries import HomePageQueries
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 
-
 class HomePageView(LoginRequiredMixin, TemplateView):
     '''
     This class handles the home page view.
@@ -27,9 +26,8 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 
         # Get followed questions along with likes and dislikes
         context["followed_questions"] = HomePageQueries.get_user_questions(user)
-
         return context
-    
+
 class SearchView(LoginRequiredMixin, TemplateView):
     '''
     This class handles the search view.
@@ -50,7 +48,7 @@ class SearchView(LoginRequiredMixin, TemplateView):
         context["search_str"] = request.POST.get('search')
 
         return self.render_to_response(context)
-    
+
 class LikeQuestionView(LoginRequiredMixin, View):
     '''
     This class handles the like question view.
@@ -92,7 +90,7 @@ class DislikeQuestionView(LoginRequiredMixin, View):
 
         # Redirect back to the question or wherever you want
         return redirect('/', question_id=question_id)
-    
+
 class LikeAnswerView(LoginRequiredMixin, View):
     '''
     This class handles the like answer view.

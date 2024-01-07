@@ -2,6 +2,7 @@
 This file contains all the queries that are used in the posts app.
 '''
 from posts.models import Question, Answer, Vote, Topic
+from django.core.paginator import Paginator
 
 
 class HomePageQueries:
@@ -156,3 +157,113 @@ class HomePageQueries:
         topics = Topic.objects.filter(name__icontains=search_str)
 
         return questions_list, topics
+    
+class QuestionPageQueries:
+    '''
+    This class contains all the queries that are used in the question page.
+    '''
+    @staticmethod
+    def get_question_answers(question):
+        '''
+        This method returns all the answers of the question.
+        '''
+        answers = Answer.objects.filter(question=question)
+        return answers
+
+    @staticmethod
+    def get_complete_question(question):
+        '''
+        This method returns the question along with the answers and their likes and dislikes.
+        '''
+        answers = QuestionPageQueries.get_question_answers(question)
+        for answer in answers:
+            likes, dislikes = HomePageQueries.get_votes_answers(answer)
+            answer.likes = likes
+            answer.dislikes = dislikes
+        question.answers = answers
+        return question
+
+class TopicPageQueries:
+    '''
+    This class contains all the queries that are used in the topic page.
+    '''
+    @staticmethod
+    def get_topic_questions(topic):
+        '''
+        This method returns all the questions of the topic.
+        '''
+        questions = Question.objects.filter(topic=topic)
+        return questions
+
+    @staticmethod
+    def get_topics():
+        '''
+        This method returns all the topics.
+        '''
+        topics = Topic.objects.all()
+        return topics
+
+    @staticmethod
+    def get_topic_questions_paginated(topic, page):
+        '''
+        This method returns the questions of the topic in the given page.
+        '''
+        questions = TopicPageQueries.get_topic_questions(topic)
+        paginator = Paginator(questions, 10)
+        questions = paginator.get_page(page)
+        return questions
+
+    @staticmethod
+    def get_topic_questions_paginated_by_user(topic, user, page):
+        '''
+        This method returns the questions of the topic in the given page.
+        '''
+        questions = TopicPageQueries.get_topic_questions(topic)
+        questions = questions.filter(user=user)
+        paginator = Paginator(questions, 10)
+        questions = paginator.get_page(page)
+        return questions
+
+    @staticmethod
+    def get_topic_questions_paginated_by_user_and_date(topic, user, page):
+        '''
+        This method returns the questions of the topic in the given page.
+        '''
+        questions = TopicPageQueries.get_topic_questions(topic)
+        questions = questions.filter(user=user).order_by('-date')
+        paginator = Paginator(questions, 10)
+        questions = paginator.get_page(page)
+        return questions
+
+    @staticmethod
+    def get_topic_questions_paginated_by_user_and_likes(topic, user, page):
+        '''
+        This method returns the questions of the topic in the given page.
+        '''
+        questions = TopicPageQueries.get_topic_questions(topic)
+        questions = questions.filter(user=user).order_by('-likes')
+        paginator = Paginator(questions, 10)
+        questions = paginator.get_page(page)
+        return questions
+
+    @staticmethod
+    def get_topic_questions_paginated_by_user_and_dislikes(topic, user, page):
+        '''
+        This method returns the questions of the topic in the given page.
+        '''
+        questions = TopicPageQueries.get_topic_questions(topic)
+        questions = questions.filter(user=user).order_by('-dislikes')
+        paginator = Paginator(questions, 10)
+        questions = paginator.get_page(page)
+        return questions
+
+    @staticmethod
+    def get_topic_questions_paginated_by_date(topic, page):
+        '''
+        This method returns the questions of the topic in the given page.
+        '''
+        questions = TopicPageQueries.get_topic_questions(topic)
+        questions = questions.order_by('-date')
+        paginator = Paginator(questions, 10)
+        questions = paginator.get_page(page)
+        return questions

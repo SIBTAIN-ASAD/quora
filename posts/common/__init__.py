@@ -1,1 +1,1 @@
-from .queries import HomePageQueries
+from .queries import HomePageQueries, TopicPageQueries, QuestionPageQueries

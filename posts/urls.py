@@ -6,7 +6,11 @@ from .views import (HomePageView,
                     AnswerQuestionView,
                     SearchView,
                     LikeAnswerView,
-                    DislikeAnswerView )
+                    DislikeAnswerView,
+                    AddTopicView,
+                    TopicPageView,
+                    QuestoinView,
+                    )
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -16,4 +20,9 @@ urlpatterns = [
     path('like_answer/<int:answer_id>/', LikeAnswerView.as_view(), name='like_answer'),
     path('dislike_answer/<int:answer_id>/', DislikeAnswerView.as_view(), name='dislike_answer'),
     path('search/', SearchView.as_view(), name='search'),
+    path('add_topic/', AddTopicView.as_view(), name='add_topic'),
+    path('topic/<int:topic_id>/', TopicPageView.as_view(), name='topic_page'),
+    path('topic/<int:topic_id>/<int:page>/', TopicPageView.as_view(), name='topic_page_paginated'),
+
+    path('question/<int:question_id>/', QuestoinView.as_view(), name='question_page'),
 ]

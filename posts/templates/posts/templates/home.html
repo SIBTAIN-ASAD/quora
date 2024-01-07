@@ -123,11 +123,18 @@
                           </button>
                       </form>
                   </div>
+
                   </div>
                   {% endfor %}
               </div>
-          </div>
-      </div>
+              
+              <!-- View All Button -->
+              <div class="d-flex justify-content-end">
+                  <a href="{% url 'question_page' question.id %}" class="btn btn-outline-danger">View All Answers</a>
+                </div>
+                
+            </div>
+        </div>
   {% endfor %}
 
         {% for question in followed_questions %}
@@ -217,11 +224,16 @@
                                 </button>
                             </form>
                         </div>
-                        </div>
+
                         {% endfor %}
                     </div>
                 </div>
-            </div>
+                        <!-- View All Button -->
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'question_page' question.id %}" class="btn btn-outline-danger">View All Answers</a>
+                        </div>
+                      </div>
+          </div>
         {% endfor %}
     </div>
 {% endif %}
