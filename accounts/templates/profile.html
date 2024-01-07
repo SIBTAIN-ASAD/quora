@@ -74,8 +74,6 @@
                                                     </form>
                                                 </div>
                 
-                
-                                                {% comment %} TODO: change forms for answers {% endcomment %}
                                                 <div class="d-flex align-items-center py-2 my-3">
                                                     <!-- Like button -->
                                                     <form action="{% url 'like_question' question.id %}" method="post">
@@ -110,26 +108,27 @@
                                             <span class="btn-outline-danger btn btn-sm p-2 fw-bold bold rounded-1"> Q: {{ answer.question.title }}</span>
                                         </div>
 
-                                {% comment %} TODO: change forms for answers {% endcomment %}
-                                <div class="d-flex align-items-center py-2 my-3">
-                                    <!-- Like button -->
-                                    <form action="{% url 'like_answer' answer.id %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn p-0 m-0">
-                                            <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ answer.likes }}</span>
-                                            <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
-                                        </button>
-                                    </form>
-                                    <!-- Dislike button -->
-                                    <form action="{% url 'dislike_answer' answer.id %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="ms-3 btn p-0 m-0"> 
-                                            <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ answer.dislikes }}</span>
-                                            <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                {% endfor %}
+                                        <div class="d-flex align-items-center py-2 my-3">
+                                            <!-- Like button -->
+                                            <form action="{% url 'like_answer' answer.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn p-0 m-0">
+
+
+                                                    <span class="p-0 m-0 fw-bold fs-6 text-success p-1">{{ answer.likes }}</span>
+                                                    <i class="p-0 m-0 text-success fa-solid fa-thumbs-up"></i>
+                                                </button>
+                                            </form>
+                                            <!-- Dislike button -->
+                                            <form action="{% url 'dislike_answer' answer.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="ms-3 btn p-0 m-0"> 
+                                                    <span class="p-0 m-0 fw-bold fs-6 text-danger p-1">{{ answer.dislikes }}</span>
+                                                    <i class="p-0 m-0 text-danger fa-solid fa-thumbs-down"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>

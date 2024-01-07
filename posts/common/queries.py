@@ -38,8 +38,7 @@ class HomePageQueries:
         '''
         topics = user.followed_topics.all()
         # don't fetch duplicates questions and topics
-        questions = Question.objects.filter(topic__in=topics).distinct()
-
+        questions = Question.objects.filter(topics__in=topics).distinct()
         questions_list = []
         for question in questions:
             likes, dislikes = HomePageQueries.get_votes(question)

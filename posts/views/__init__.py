@@ -13,5 +13,7 @@ from .topic_view import (AddTopicView,
                          TopicPageView,
                         )
 from .question_view import (QuestoinView,
+                            AddQuestionView,
+                            AddQuestionFormView,
                             )
 from .about_view import AboutView
