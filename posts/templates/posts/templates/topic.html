@@ -9,11 +9,46 @@
     <!-- Questions -->
     <div class="container w-75 pt-3">
 
-        <!-- Topic Information -->
-        <div class="container mt-5 pt-2">
-            <h2 class="mb-4 mt-5">Topic: {{ topic.name }}</h2>
-            <p>Total Users Following: {{ topic.followed_by.all.count }}</p>
+<!-- Topic Information -->
+<div class="mt-5 pt-5 col-md-12">
+    <div id="content" class="content content-full-width">
+        <div class="profile">
+            <div class="profile-header" style="position: relative;">
+                <!-- Darkened Background with Dark Overlay -->
+                <div class="profile-header-cover" style="
+                    {% if topic.topic_picture %}
+                        background-image: url('{{ topic.topic_picture.url }}');
+                    {% else %}
+                        {% comment %} background-image: url('{% static "path/to/default-image.jpg" %}'); {% endcomment %}
+                    {% endif %}
+                    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay color */
+                    filter: blur(15px) brightness(50%); /* Apply a dark filter and adjust brightness as needed */
+                    height: 100%;
+                    background-size: cover;
+                "></div>
+                
+                <div class="profile-header-content" style="position: relative; z-index: 1;">
+                    <div class="">
+                        {% if topic.topic_picture %}
+                            <img src="{{ topic.topic_picture.url }}" alt="Profile Picture" width="100px" height="100px" class="border border-2 border-white rounded-2">
+                        {% endif %}
+                    </div>
+                    <div class="profile-header-info">
+                        <p class="fw-bold my-2 fs-1 m-b-10 text-white">
+                            {{ topic.name }}
+                        </p>
+                        <p class="fw-bold m-b-10 text-white"> 
+                            {{ topic.description }}
+                        </p>
+                        <p class="m-b-10">
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+
+
 
         {% if all_questions %}
         <!-- Pagination -->
