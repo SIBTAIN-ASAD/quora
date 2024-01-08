@@ -34,7 +34,9 @@
                     <!-- Topics related to questions -->
                     <strong class="fw-bold custom-color-red">Found topics:</strong>
                     {% for topic in searched_topics %}
+                        <a href="{% url 'topic_page' topic.id %}" class="text-decoration-none text-dark">
                         <span class="badge bg-secondary">{{ topic.name }}</span>
+                        </a>
                     {% endfor %}
                 </div>
             {% endif %}
