@@ -104,7 +104,7 @@ class TopicFollowView(LoginRequiredMixin, ListView):
         topic = get_object_or_404(Topic, pk=self.kwargs['topic_id'])
         topic.followed_by.add(self.request.user)
         return TopicPageQueries.get_topic_questions(topic)
-    
+
 class TopicUnfollowView(LoginRequiredMixin, ListView):
     '''
     View for unfollowing a topic

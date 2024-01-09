@@ -51,7 +51,14 @@
             {% for topic in topics %}
                 <li class="list-group-item my-2 p-2 border-top d-flex align-items-center">
                     <img src="{{ topic.topic_picture.url }}" alt="{{ topic.name }}" width="30" height="30" class="me-2 rounded-circle">
-                    <a href="{% url 'topic_page' topic.id %}" class="text-black fw-bold">{{ topic.name }}</a>
+                    <a href="{% url 'topic_page' topic.id %}" class="text-black fw-bold">
+                        {% comment %} {{ topic.name|slice:":15" }} {% endcomment %}
+                        {% if topic.name|length > 15 %}
+                            {{ topic.name|slice:":15" }}...
+                        {% else %}
+                            {{ topic.name }}
+                        {% endif %}
+                    </a>
                     <a href="{% url 'topic_page' topic.id %}" class="btn btn-outline-danger ms-auto">View</a>
                     <!-- Follow/Unfollow Topic Button -->
                     {% if user.is_authenticated %}
