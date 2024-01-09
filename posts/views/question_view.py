@@ -112,6 +112,11 @@ class LikeQuestionView(LoginRequiredMixin, View):
             # If the user hasn't liked the question, create a new like
             Vote.objects.create(question=question, author=user, vote_type='L')
 
+            # if the user has disliked the question, delete the dislike
+            existing_dislike = Vote.objects.filter(question=question, author=user, vote_type='D').first()
+            if existing_dislike:
+                existing_dislike.delete()
+
         # Redirect back to the question or wherever you want
         return redirect('/', question_id=question_id)
 
@@ -132,6 +137,11 @@ class DislikeQuestionView(LoginRequiredMixin, View):
         if not existing_vote:
             # If the user hasn't disliked the question, create a new dislike
             Vote.objects.create(question=question, author=user, vote_type='D')
+
+            # if the user has liked the question, delete the like
+            existing_like = Vote.objects.filter(question=question, author=user, vote_type='L').first()
+            if existing_like:
+                existing_like.delete()
 
         # Redirect back to the question or wherever you want
         return redirect('/', question_id=question_id)

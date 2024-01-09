@@ -26,6 +26,11 @@ class LikeAnswerView(LoginRequiredMixin, View):
             # If the user hasn't liked the answer, create a new like
             Vote.objects.create(answer=answer, author=user, vote_type='L')
 
+            # if the user has disliked the answer, delete the dislike
+            existing_dislike = Vote.objects.filter(answer=answer, author=user, vote_type='D').first()
+            if existing_dislike:
+                existing_dislike.delete()
+
         # Redirect back to the question or wherever you want
         return redirect('/', answer_id=answer_id)
 
@@ -47,6 +52,11 @@ class DislikeAnswerView(LoginRequiredMixin, View):
             # If the user hasn't disliked the answer, create a new dislike
             Vote.objects.create(answer=answer, author=user, vote_type='D')
 
+            # if the user has liked the answer, delete the like
+            existing_like = Vote.objects.filter(answer=answer, author=user, vote_type='L').first()
+            if existing_like:
+                existing_like.delete()
+
         # Redirect back to the question or wherever you want
         return redirect('/', answer_id=answer_id)
 
@@ -63,6 +73,7 @@ class AnswerQuestionView(LoginRequiredMixin, View):
 
         # Create a new answer
         Answer.objects.create(question=question, author=user, description=request.POST.get('answer'))
+
 
         # Redirect back to the question or wherever you want
         return redirect('/', question_id=question_id)
