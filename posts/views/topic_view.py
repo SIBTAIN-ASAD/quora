@@ -24,12 +24,19 @@ class AddTopicView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        # Handle followed_by
+        self.object.followed_by.add(self.request.user)
+
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['topics'] = Topic.objects.all()
         return context
+    
+
 
 class TopicPageView(ListView):
     '''
