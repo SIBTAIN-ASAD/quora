@@ -13,6 +13,7 @@ services:
       - db
     env_file:
       - .env
+    entrypoint: ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"]
   db:
     image: postgres:latest
     volumes:
@@ -31,4 +32,3 @@ services:
 
 volumes:
   postgres-data:
-

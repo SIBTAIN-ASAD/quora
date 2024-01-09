@@ -1,11 +1,13 @@
 '''
 Views for the accounts app
 '''
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.views import LoginView
 from .forms import CustomUserCreationForm
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 # authenticated mixins in django
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .common import ProfileQueries
@@ -17,7 +19,7 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     template_name = "registration/signup.html"
     success_url = reverse_lazy("login")
-
+   
 class ProfileView(LoginRequiredMixin, TemplateView):
     '''
     View for displaying the profile of the user
@@ -76,5 +78,13 @@ class UserProfileUpdateView(LoginRequiredMixin, TemplateView):
         user.age = request.POST.get('age')
         user.profilePicture = request.FILES.get('profilePicture')
         user.gender = request.POST.get("gender")
+
+        # if age is less than 0, then return form with error
+        try:
+            if int(user.age) <= 0:
+                print("Age should be a positive number")
+                return render(request, "registration/update_profile.html",context={"error": "Age should be a positive number"})
+        except ValueError:
+            return render(request, "registration/update_profile.html", context= {"error": "Age should be a positive number"})
         user.save()
         return redirect("profile")

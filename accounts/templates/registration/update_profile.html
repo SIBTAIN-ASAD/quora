@@ -11,22 +11,30 @@
     <div class="pic">
         <div class="container login-container mx-auto py-3 w-50 h-75 shadow pt-5 py-3 bg-white rounded">
 
-            {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    <ul>
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
             <div class="text-center">
                 <a href="{% url 'profile' %}">
                     <img src="{% static 'img/logo-short.png' %}" alt="logo" class="img-fluid mb-2" width="100px">
                 </a>
             </div>
+
+            {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            {% endif %}
+                
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+        {% endif %}
 
             <div class="text-center w-50 mx-auto">
                 <form method="post" enctype="multipart/form-data">
