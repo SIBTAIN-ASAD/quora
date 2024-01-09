@@ -40,6 +40,11 @@ class SearchView(LoginRequiredMixin, TemplateView):
         context["user"] = user
         context["topics"] = user.followed_topics.all()
 
+        # if search is empty string, return all followed questions
+        if len(request.POST.get('search')) == 0:
+            context["followed_questions"] = HomePageQueries.get_user_questions(user)
+            return self.render_to_response(context)
+
         # Get searched questions along with likes and dislikes
         context["searched_questions"], context["searched_topics"] = HomePageQueries.get_searched_questions(request.POST.get('search'))
         context["search_str"] = request.POST.get('search')
