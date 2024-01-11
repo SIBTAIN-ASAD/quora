@@ -1,6 +1,7 @@
 asgiref==3.7.2
 certifi==2023.11.17
 cloudinary==1.37.0
+coverage==7.4.0
 crispy-bootstrap5==2023.10
 distlib==0.3.8
 Django==5.0.1

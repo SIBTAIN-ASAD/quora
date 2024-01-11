@@ -26,7 +26,7 @@ import cloudinary.api
 load_dotenv()
 
 secret_key = os.environ.get('SECRET_KEY')
-database_name = os.environ.get('DATABASE_NAME')
+database_name = os.environ['DATABASE_NAME']
 database_user = os.environ.get('DATABASE_USER')
 database_password = os.environ.get('DATABASE_PASSWORD')
 database_host = os.environ.get('DATABASE_HOST')

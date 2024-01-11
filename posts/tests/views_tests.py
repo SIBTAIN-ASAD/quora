@@ -3,7 +3,7 @@ This module handles the views tests.
 '''
 from django.test import TestCase
 from django.urls import reverse
-from posts.tests.factories import TopicFactory
+from posts.tests.factories import *
 from accounts.factories import CustomUserFactory
 from posts.models import Topic
 
