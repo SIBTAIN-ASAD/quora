@@ -8,3 +8,4 @@ class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, blank=True)
     email = models.EmailField(unique=True)
     profilePicture = CloudinaryField('image')
+    gender = models.CharField(max_length=10, null=True, blank=True)
