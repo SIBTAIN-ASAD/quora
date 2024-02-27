@@ -11,6 +11,37 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+# ------------------------------------------------------------------
+# Custom Settings by SAM
+# ------------------------------------------------------------------
+
+# Load .env file
+load_dotenv()
+
+secret_key = os.environ.get('SECRET_KEY')
+database_name = os.environ['DATABASE_NAME']
+database_user = os.environ.get('DATABASE_USER')
+database_password = os.environ.get('DATABASE_PASSWORD')
+database_host = os.environ.get('DATABASE_HOST')
+database_port = os.environ.get('DATABASE_PORT')
+
+# adding config
+cloudinary.config(
+    cloud_name = os.environ.get('CLOUD_NAME'),
+    api_key = os.environ.get('API_KEY'),
+    api_secret = os.environ.get('API_SECRET'),
+)
+
+# ------------------------------------------------------------------
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +56,7 @@ SECRET_KEY = 'django-insecure-11*tgg$qx*+rxbyf+r%v+%yzf4b=-o=w-_(fa-hzr*o93%$9)p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +68,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Custom Apps
+    'accounts.apps.AccountsConfig',
+    'posts.apps.PostsConfig',
+
+    # 3rd Party
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -53,8 +91,9 @@ ROOT_URLCONF = 'quora.urls'
 
 TEMPLATES = [
     {
+        
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates", BASE_DIR / "accounts/templates", BASE_DIR / "posts/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,9 +113,14 @@ WSGI_APPLICATION = 'quora.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default': {        
+        #postgres
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': database_name,
+        'USER': database_user,
+        'PASSWORD': database_password,
+        'HOST': database_host,
+        'PORT': database_port,
     }
 }
 
@@ -116,8 +160,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom Settings by SAM
+AUTH_USER_MODEL = 'accounts.CustomUser'
+LOGIN_REDIRECT_URL = "profile"
+LOGOUT_REDIRECT_URL = "login"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

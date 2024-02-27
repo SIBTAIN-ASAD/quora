@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Add Topic{% endblock %}
+
+{% block content %}
+
+<!-- Followed Questions Section -->
+<div class="container w-75 pt-5">
+    <h2 class="mb-5"></h2>
+
+    <!-- Add a New Topic -->
+    <div class="card mb-3 border-0">
+        <!-- Add a New Topic Button -->
+        <button class="btn btn-danger fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#addTopicForm" aria-expanded="false" aria-controls="addTopicForm">
+            Add a new Topic
+        </button>
+
+        <!-- Add a New Topic Form (Collapsed by Default) -->
+        <div class="collapse card mb-3 border-0" id="addTopicForm">
+            <div class="card-body mx-auto w-50">
+                <h5 class="card-title py-2 m-0 p-0 custom-color-red">Add a New Topic</h5>
+                <form action="{% url 'add_topic' %}" method="post" class="mt-3 form-floating mx-auto" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="questionTitleInput" name="name" placeholder="Title" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="questionDescriptionInput" name="description" placeholder="Description" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image" class="form-control w-100 label mx-0 px-2 my-2">
+                            Topic Image
+                            <input type="file" name="topic_picture" class="form-control w-100 my-2 border-0" id="image" accept="image/*" required>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger">Submit Topic</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+<!-- List of Topics -->
+<div class="card mb-3 border-0">
+    <div class="card-body">
+        <h5 class="card-title py-2 m-0 p-0 custom-color-red">List of Topics:</h5>
+        <ul class="list-group">
+            {% for topic in topics %}
+                <li class="list-group-item my-2 p-2 border-top d-flex align-items-center">
+                    <img src="{{ topic.topic_picture.url }}" alt="{{ topic.name }}" width="30" height="30" class="me-2 rounded-circle">
+                    <a href="{% url 'topic_page' topic.id %}" class="text-black fw-bold">
+                        {% comment %} {{ topic.name|slice:":15" }} {% endcomment %}
+                        {% if topic.name|length > 15 %}
+                            {{ topic.name|slice:":15" }}...
+                        {% else %}
+                            {{ topic.name }}
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'topic_page' topic.id %}" class="btn btn-outline-danger ms-auto">View</a>
+                    <!-- Follow/Unfollow Topic Button -->
+                    {% if user.is_authenticated %}
+                        {% if user in topic.followed_by.all %}
+                            <form action="{% url 'topic_unfollow' topic.id %}" method="get" class="ms-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger">Unfollow</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'topic_follow' topic.id %}" method="get" class="ms-2">
+                                {% csrf_token %}
+                                <button type="submit" class=" px-4 btn btn-outline-success">Follow</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</div>
+
+</div>
+
+{% endblock %}
