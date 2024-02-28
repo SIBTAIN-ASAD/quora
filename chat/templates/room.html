@@ -1,0 +1,35 @@
+<!-- chat/templates/room.html -->
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+    <h1>Chat Room</h1>
+<div class="container mt-5 p-4 rounded-lg shadow-lg bg-light">
+    <h2 class="fw-bold custom-color-red mb-4">Welcome to Quora Discussion Channel</h2>
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <div class="mb-3">
+                <label class="fw-bold text-success" for="chatLog">Room: <span class="text-danger">#{{ room.name }}</span></label>
+                <textarea class="form-control overflow-auto" id="chatLog" readonly style="min-height: 200px;"></textarea>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" id="chatMessageInput" placeholder="Type your message here">
+                <div class="input-group-append">
+                    <button class="btn btn-success ms-4" id="chatMessageSend" type="button">Send</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="fw-bold text-success" for="onlineUsers">Online users</label>
+            <select multiple class="form-control text-success" id="onlineUsersSelector">
+            </select>
+        </div>
+    </div>
+    {{ room.name|json_script:"roomName" }}
+</div>
+<script src="{% static 'js/room.js' %}"></script>
+
+
+{% endblock %}

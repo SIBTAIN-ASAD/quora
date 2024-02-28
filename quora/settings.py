@@ -39,6 +39,18 @@ cloudinary.config(
     api_secret = os.environ.get('API_SECRET'),
 )
 
+# channel layer settings using Redis
+# it will be used for chat application, to share messages between users
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
 # ------------------------------------------------------------------
 
 
@@ -72,9 +84,11 @@ INSTALLED_APPS = [
     # Custom Apps
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
-
+    'chat.apps.ChatConfig',
+    
     # 3rd Party
     'cloudinary',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -93,7 +107,11 @@ TEMPLATES = [
     {
         
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates", BASE_DIR / "accounts/templates", BASE_DIR / "posts/templates"],
+        'DIRS': [BASE_DIR / "templates", 
+                 BASE_DIR / "accounts/templates",
+                 BASE_DIR / "posts/templates",
+                 BASE_DIR / "chat/templates",
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,7 +125,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'quora.wsgi.application'
-
+ASGI_APPLICATION= "quora.asgi.application" # Custom by SAM
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
