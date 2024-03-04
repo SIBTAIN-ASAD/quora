@@ -26,12 +26,16 @@ import cloudinary.api
 # Load .env file
 load_dotenv()
 
+# Database Variables
 secret_key = os.environ.get('SECRET_KEY')
 database_name = os.environ['DATABASE_NAME']
 database_user = os.environ.get('DATABASE_USER')
 database_password = os.environ.get('DATABASE_PASSWORD')
 database_host = os.environ.get('DATABASE_HOST')
 database_port = os.environ.get('DATABASE_PORT')
+
+# Encryption Key
+ENCRYPT_KEY = os.environ.get('ENCRYPT_KEY')
 
 # adding config
 cloudinary.config(
@@ -222,3 +226,7 @@ SIMPLE_JWT = {
      'ROTATE_REFRESH_TOKENS': True,
      'BLACKLIST_AFTER_ROTATION': True
 }
+
+FERNET_KEYS = [
+    ENCRYPT_KEY,
+]

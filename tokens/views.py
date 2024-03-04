@@ -3,12 +3,15 @@ This file is used to handle api views request in tokens app
 Using simplejwt for authentication
 '''
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-from rest_framework.permissions import IsAuthenticated
+
+from .models import UserRatingComment
+from .commons import encrypt, decrypt
 
 class JWTLoginView(APIView):
     '''
@@ -86,3 +89,85 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# ------------------------------------------------------------------
+# Practicing encryption and decryption
+# ------------------------------------------------------------------
+class UserRatingCommentView(APIView):
+    '''
+    View to handle user rating and comments
+    it will use encryption and decryption in various ways
+    '''
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        '''
+        Post request to save user rating and comments
+        '''
+        user = request.user
+        rating = request.data.get('rating')
+        comment = request.data.get('comment')
+        review = request.data.get('review')
+        catalog = request.data.get('catalog')
+        comment_type = request.data.get('comment_type')
+
+        # Save user rating and comments
+        userRatingComment = UserRatingComment.objects.create(user=user, 
+                            rating=encrypt(rating), # Manual encryption
+                            comment=comment,
+                            review=review, 
+                            catalog=catalog, 
+                            comment_type=comment_type)
+        userRatingComment.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+    
+    def get(self, request):
+        '''
+        Get request to get user rating and comments
+        '''
+        user = request.user
+        userRatingComment = UserRatingComment.objects.filter(user=user)
+
+        # Decrypt user rating
+        for userRating in userRatingComment:
+            userRating.rating = decrypt(userRating.rating) # Manual decryption
+
+        # Return user rating and comments
+        return Response({
+            'userRatingComment': userRatingComment.values()
+        }, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        '''
+        Delete request to delete user rating and comments
+        '''
+        id = request.data.get('id')  # Retrieve id from the request body
+
+        # Delete user rating and comments
+        userRatingComment = UserRatingComment.objects.filter(id=id).delete()
+
+        return Response(status=status.HTTP_200_OK)
+
+    def put(self, request):
+        '''
+        Put request to update user rating and comments
+        '''
+        user = request.user
+        rating = request.data.get('rating')
+        comment = request.data.get('comment')
+        review = request.data.get('review')
+        catalog = request.data.get('catalog')
+        comment_type = request.data.get('comment_type')
+
+        # Update user rating and comments
+        userRatingComment = UserRatingComment.objects.filter(user=user).update(
+                            rating=encrypt(rating), # Manual encryption
+                            comment=comment,
+                            review=review, 
+                            catalog=catalog, 
+                            comment_type=comment_type)
+
+        return Response(status=status.HTTP_200_OK)
+# ------------------------------------------------------------------
+# ------------------------------------------------------------------

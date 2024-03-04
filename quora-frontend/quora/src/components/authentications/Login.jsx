@@ -4,16 +4,19 @@ import { useAuth } from '../AuthContext';
 
 import logo from '../../assets/images/logo-short.png';
 import './Login.css';
+import LoadingOverlay from '../loading/LoadingOverlay';
 
 const Login = () => {
     const { login } = useAuth(); // Access login function from AuthContext
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
-
+        setLoading(true);
         try {
             await login(username, password); // Call login function from AuthContext
             console.log('Login successful');
@@ -23,9 +26,14 @@ const Login = () => {
             console.error('Error logging in:', error.message);
             setError('Invalid username or password');
         }
+        finally {
+            setLoading(false);
+        }
     };
 
     return (
+        <>
+        {loading && <LoadingOverlay />}
         <div className="pic min-h-screen flex justify-center items-center">
             <div className="container mx-auto w-1/3 p-24 bg-white rounded-lg shadow-lg">
                 <div className="text-center">
@@ -51,6 +59,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
