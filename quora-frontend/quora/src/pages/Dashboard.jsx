@@ -63,7 +63,7 @@ const Dashboard = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
-            setComments(response.data.userRatingComment);
+            setComments(response.data.user_rating_comment);
         } catch (error) {
             console.error('Error fetching comments:', error);
         }
@@ -104,15 +104,13 @@ const Dashboard = () => {
                             <p className="text-gray-800 text-lg animated-text"><strong>Email: </strong> {currentUser.email}</p>
                             <p className="text-gray-800 text-lg ps-0 ms-0 animated-text"><strong>Username: </strong> {currentUser.username}</p>
                             <div className="profile-picture mb-6 absolute top-0 left-1/2 transform -translate-x-1/2"> {/* Add absolute positioning */}
-                                {currentUser.profilePicture ? (
-                                    <img src={currentUser.profilePicture} alt="Profile" className="-mt-16 rounded-full border-4 border-white" style={{ width: '150px', height: '150px' }} />
+                                {currentUser.profile_picture ? (
+                                    <img src={currentUser.profile_picture} alt="Profile" className="-mt-16 rounded-full border-4 border-white" style={{ width: '150px', height: '150px' }} />
                                 ) : (
                                     <p className="text-gray-700">No profile picture available</p>
                                 )}
                             </div>
                         </div>
-
-
 
                         {/* Add comment form */}
                         <form onSubmit={handleSubmit} className="mt-4 h-auto overflow-auto">

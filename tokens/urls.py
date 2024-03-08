@@ -5,7 +5,7 @@ File contains urls for tokens app, handling API requests
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
-from .views import JWTLoginView, HomeView, LogoutView, UserRatingCommentView
+from tokens.views import JWTLoginView, HomeView, LogoutView, UserRatingCommentView
 
 
 urlpatterns = [
@@ -22,4 +22,3 @@ urlpatterns = [
 
       path('comment', UserRatingCommentView.as_view(), name='user-rating-comment'),
 ]
-

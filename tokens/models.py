@@ -17,7 +17,6 @@ class UserRatingComment(models.Model):
     review  = models.CharField(max_length=500)
     catalog = models.CharField(max_length=500)
     comment_type = models.CharField(max_length=500)
-
     class Meta:
         '''
         Meta class for UserRatingComment
@@ -25,3 +24,6 @@ class UserRatingComment(models.Model):
         db_table = 'user_rating_comment'
         verbose_name = 'User Rating Comment'
         verbose_name_plural = 'User Rating Comments'
+
+    # manager
+    objects = models.Manager()

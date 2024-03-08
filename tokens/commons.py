@@ -47,7 +47,8 @@ This file contains the common functions to encrypt and decrypt the tokens
 #     key = adjust_key_length(key)
 #     cipher = AES.new(key, AES.MODE_EAX)
 #     nonce = cipher.nonce
-#     ciphertext, tag = cipher.encrypt_and_digest(cleartext.encode('utf-8'))  # Encode cleartext to bytes
+#     # Encode cleartext to bytes
+#     ciphertext, tag = cipher.encrypt_and_digest(cleartext.encode('utf-8'))
 #     return (nonce + ciphertext + tag).hex()
 
 # def decrypt(ciphertext: str) -> str:
@@ -61,14 +62,19 @@ This file contains the common functions to encrypt and decrypt the tokens
 #     tag = ciphertext[-16:]
 #     ciphertext = ciphertext[16:-16]
 #     cipher = AES.new(key, AES.MODE_EAX, nonce=nonce)
-#     return cipher.decrypt_and_verify(ciphertext, tag).decode('utf-8')  # Decode decrypted bytes to string
+#     # Decode decrypted bytes to string
+#     return cipher.decrypt_and_verify(ciphertext, tag).decode('utf-8')
+
+
+
+
 
 from Crypto.Cipher import Salsa20
 from django.conf import settings
 
 def adjust_key_length(key: str) -> bytes:
     '''
-    Function to adjust the length of the key
+    Function to adjust the length of the key            
     '''
     key = key.ljust(32, '=')  # Pad the key if needed
     return key.encode()
@@ -95,3 +101,41 @@ def decrypt(ciphertext: str) -> str:
     ciphertext = ciphertext[8:]
     cipher = Salsa20.new(key, nonce=nonce)
     return cipher.decrypt(ciphertext).decode('utf-8')  # Decode decrypted bytes to string
+
+
+
+
+
+
+# import base64
+# from Crypto.Cipher import AES
+# from Crypto.Util.Padding import pad,unpad
+# from Crypto.Random import get_random_bytes
+# from django.conf import settings
+
+# #CBC mode with random IV
+
+# def encrypt(data):
+#         '''
+#         Function to encrypt data
+#         '''
+#         key = settings.ENCRYPT_KEY
+#         #Random IV more secure
+#         iv =  get_random_bytes(16) #16 char for AES128
+
+#         data = pad(data.encode(),16)
+#         cipher = AES.new(key.encode('utf-8'),AES.MODE_CBC,iv)
+#         print('random IV : ' , base64.b64encode(cipher.iv).decode('utf-8'))
+#         return base64.b64encode(cipher.encrypt(data)),base64.b64encode(cipher.iv).decode('utf-8')
+
+# def decrypt(enc):
+#         '''
+#         Function to decrypt data
+#         '''
+#         #Random IV more secure
+#         iv =  get_random_bytes(16) #16 char for AES128
+#         key = settings.ENCRYPT_KEY
+
+#         enc = base64.b64decode(enc)
+#         cipher = AES.new(key.encode('utf-8'), AES.MODE_CBC, base64.b64decode(iv))
+#         return unpad(cipher.decrypt(enc),16)
