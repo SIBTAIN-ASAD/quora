@@ -1,6 +1,6 @@
 // File Contains all the constants used in the application
 
-export const COMMENTS = 'http://localhost:8000/api/comments/';
+export const COMMENTS = 'http://localhost:8000/api/comment';
 
 const AUTH_URLS = {
     LOGIN: 'http://localhost:8000/api/login',

@@ -16,7 +16,7 @@ export const fetchComments = async () => {
     }
 }
 
-export const postCommet = async (commentData) => {
+export const postComment = async (commentData) => {
     try {
         await axios.post(COMMENTS, commentData, {
             headers: {

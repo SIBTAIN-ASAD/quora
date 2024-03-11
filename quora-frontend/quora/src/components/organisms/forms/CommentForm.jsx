@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 
 
-import { postCommet } from "../../../services/commentAPIS";
+import { postComment } from "../../../services/commentAPIS";
 import { Input, Textarea, SubmitButton } from "../../atoms/index";
 
-const CommentForm = () => {
+const CommentForm = (props) => {
+
+    const refreshComments = props.setRefreshComments;
 
     // State to hold the form data
     const [commentData, setCommentData] = useState({
@@ -27,15 +29,16 @@ const CommentForm = () => {
     // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await postCommet(commentData);
+        await postComment(commentData);
 
         // Clear the form
-        for (const key in commentData) {
-            setCommentData({
-                ...commentData,
-                [key]: ''
-            });
-        }
+        setCommentData({
+            rating: '',
+            catalog: '',
+            review: '',
+            comment_type: '',
+            comment: ''
+        });
     };
 
     // Function to handle input changes
@@ -57,14 +60,16 @@ const CommentForm = () => {
                         type={field.type}
                         name={field.name}
                         placeholder={field.placeholder}
-                        onChange={handleChange}
+                        value={commentData[field.name]}
+                        handleChange={handleChange}
                     />
                 ))}
                 <Textarea
                     name="comment"
                     value={commentData.comment}
                     placeholder="Comment"
-                    onChange={handleChange}
+                    rows={3}
+                    handleChange={handleChange}
                 />
                 <SubmitButton text="Add Comment" />
             </div>

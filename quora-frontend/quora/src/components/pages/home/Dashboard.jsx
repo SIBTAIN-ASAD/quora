@@ -1,48 +1,36 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; // Importing useDispatch and useSelector
-import { fetchUserData } from '../../../services/authAPIs';
-import { logout } from '../../../services/authAPIs';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { UserProfile, CommentSection } from '../../page-templates/index';
 import { CommentForm } from '../../organisms/index';
 import { LogoutButton } from '../../atoms/index';
 import './Dashboard.css';
 
 const Dashboard = () => {
-    const dispatch = useDispatch(); // Initializing useDispatch hook
-    const currentUser = useSelector(state => state.auth.currentUser); // Fetching currentUser from Redux store
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                dispatch(fetchUserData()); // Dispatching action to fetch user data
-            } catch (error) {
-                console.error('Error fetching user data:', error.message);
-            }
-        };
+    const data = useSelector((state) => state.user.userDetails);
 
-        if (!currentUser) {
-            fetchData(); // Fetch user data if currentUser is not available
-        }
-    }, [dispatch, currentUser]);
+    // store a copy of the current user
+    const currentUser = data;
 
-    const handleLogout = () => {
-        dispatch(logout()); // Dispatching action to log out
-    };
-
-    if (!currentUser) {
+    if (currentUser === null) {
+        // try fetching user details from the server
         window.location.href = '/login';
     }
 
     return (
-        <div className="pic2 min-h-screen flex justify-center items-center bg-gradient-to-b from-purple-400 via-pink-500 to-red-500">
-            <div className="container mx-auto w-1/2 p-4 bg-white rounded-lg shadow-lg text-center relative h-5/6">
-                <UserProfile />
-                <CommentForm />
-                <CommentSection />
-                <LogoutButton onClick={handleLogout} /> {/* Pass handleLogout as onClick prop */}
+        <>
+            <div className="pic2 min-h-screen flex justify-center items-center bg-gradient-to-b from-purple-400 via-pink-500 to-red-500">
+                <div className="container mx-auto w-1/2 p-4 bg-white rounded-lg shadow-lg text-center relative h-5/6">
+                    <UserProfile currentUser={currentUser} />
+                    <CommentForm />
+                    <CommentSection />
+                    <LogoutButton />
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
 export default Dashboard;
+
+

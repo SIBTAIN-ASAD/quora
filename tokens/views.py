@@ -24,9 +24,7 @@ class JWTLoginView(APIView):
         '''
         username = request.data.get('username')
         password = request.data.get('password')
-
-        print(username, password)
-
+        
         # Authenticate user
         user = authenticate(username=username, password=password)
         if user:

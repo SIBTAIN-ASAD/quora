@@ -1,21 +1,21 @@
 // User Profile component
 
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { AuthContext } from '../../../contexts/AuthContext';
 import { UserInfoItem, UserProfilePicture } from '../../atoms/index';
 
-const UserProfile = () => {
-    const currentUser = useContext(AuthContext);
+const UserProfile = (props) => {
+
+    const currentUser = props.currentUser;
 
     const profileFields = [
         {
             label: 'Email',
-            value: currentUser.email,
+            value: currentUser.email || 'Not available',
         },
         {
             label: 'Username',
-            value: currentUser.username,
+            value: currentUser.username || 'Not available',
         },
     ];
 
