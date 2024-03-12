@@ -4,11 +4,11 @@ import React, { useState } from "react";
 
 import { postComment } from "../../../services/commentAPIS";
 import { Input, Textarea, SubmitButton } from "../../atoms/index";
+import { fetchComments } from "../../../services/commentAPIS";
 
 const CommentForm = (props) => {
 
-    const refreshComments = props.setRefreshComments;
-
+    const { setComments } = props;
     // State to hold the form data
     const [commentData, setCommentData] = useState({
         rating: '',
@@ -31,6 +31,7 @@ const CommentForm = (props) => {
         e.preventDefault();
         await postComment(commentData);
 
+
         // Clear the form
         setCommentData({
             rating: '',
@@ -39,6 +40,10 @@ const CommentForm = (props) => {
             comment_type: '',
             comment: ''
         });
+
+        // Fetch the comments again
+        const fetchedComments = await fetchComments();
+        setComments(fetchedComments.user_rating_comment);
     };
 
     // Function to handle input changes
@@ -68,10 +73,11 @@ const CommentForm = (props) => {
                     name="comment"
                     value={commentData.comment}
                     placeholder="Comment"
-                    rows={3}
                     handleChange={handleChange}
                 />
-                <SubmitButton text="Add Comment" />
+                <SubmitButton text="Add Comment"
+                    className="bg-transparent text-slate-600 hover:bg-slate-600 text-red-dark hover:text-white py-2 px-4 border border-slate-600 hover:border-transparent rounded"
+                />
             </div>
         </form>
     );

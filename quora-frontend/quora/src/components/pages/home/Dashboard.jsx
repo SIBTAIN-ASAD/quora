@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { UserProfile, CommentSection } from '../../page-templates/index';
-import { CommentForm } from '../../organisms/index';
+import { UserProfile, CommentBox } from '../../page-templates/index';
 import { LogoutButton } from '../../atoms/index';
 import './Dashboard.css';
 
@@ -22,8 +21,7 @@ const Dashboard = () => {
             <div className="pic2 min-h-screen flex justify-center items-center bg-gradient-to-b from-purple-400 via-pink-500 to-red-500">
                 <div className="container mx-auto w-1/2 p-4 bg-white rounded-lg shadow-lg text-center relative h-5/6">
                     <UserProfile currentUser={currentUser} />
-                    <CommentForm />
-                    <CommentSection />
+                    <CommentBox />
                     <LogoutButton />
                 </div>
             </div>

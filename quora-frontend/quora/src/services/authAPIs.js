@@ -76,6 +76,9 @@ export const fetchUserData = async () => {
     }
   } catch (error) {
     console.error("Error fetching user data:", error.message);
+    // set token to null if error occurs
+    localStorage.removeItem("token");
+    localStorage.removeItem("refresh_token");
     throw error;
   }
 };

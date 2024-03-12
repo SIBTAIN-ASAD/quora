@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux'; // Import useDispatch hook
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,19 @@ const Login = () => {
     const dispatch = useDispatch(); // Initialize dispatch
     const navigator = useNavigate();
 
-
+    useEffect(() => {
+        // if user is already logged in, redirect to dashboard
+        if (localStorage.getItem('token')) {
+            dispatch(fetchUserDetails())
+                .then(
+                    () => {
+                        navigator('/dashboard');
+                    }
+                )
+                .catch((error) => {
+                });
+        }
+    }, [dispatch, navigator]);
 
     const handleSubmit = async (e, username, password) => {
         e.preventDefault();

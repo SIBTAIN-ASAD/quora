@@ -45,7 +45,7 @@ const LoginForm = (props) => {
                     className={input.className}
                 />
             ))}
-            <SubmitButton text="Login" className="w-full" />
+            <SubmitButton text="Login" className="mb-6 w-full hover:bg-blue-600" />
         </form>
     );
 }

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./authentications/Login";
 import Dashboard from "./home/Dashboard";
 const App = () => {
+
   return (
     <BrowserRouter>
       <Routes>

@@ -3,13 +3,20 @@ import React from 'react';
 
 import { CommentList } from '../../organisms/index';
 
-const CommentSection = () => {
+
+const CommentSection = (props) => {
+    const {comments, setComments } = props;
 
     return (
+        <>
         <div>
             <h3 className="text-xl mt-4 font-semibold">Comments</h3>
-            <CommentList/>
+            <CommentList 
+                comments={comments}
+                setComments={setComments}
+            />
         </div>
+        </>
     );
 };
 

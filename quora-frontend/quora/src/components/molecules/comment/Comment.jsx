@@ -12,15 +12,20 @@ const Comment = (props) => {
     const commentKeys = Object.keys(comment);
 
     return (
-        <div className="bg-gray-100 rounded-md mb-2">
-            <div className='flex flex-col justify-start text-left'>
+        <div className="bg-gray-100 rounded-md mb-2 pb-2">
+            <div className='flex flex-col justify-start text-left p-4'>
                 {commentKeys.map((key, index) => (
-                    <p key={index}>
-                        {key}: {comment[key]}
-                    </p>
+                    key !== 'id' && key !== 'user' && key !== 'pk' && (
+                        <p key={index} className="flex">
+                            <span className="w-40 text-green-900 fw-bold">{key}:</span>
+                            <span>{comment[key]}</span>
+                        </p>
+                    )
                 ))}
+                <DeleteButton className="border border-red-700 mt-4 w-40 mx-auto rounded hover:bg-red-500 hover:text-white"
+                    text="Delete Comment"
+                    onClick={() => onDelete(comment.id)} />
             </div>
-            <DeleteButton onClick={() => onDelete(comment.id)} />
         </div>
     );
 };
