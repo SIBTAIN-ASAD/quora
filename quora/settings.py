@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -25,6 +26,7 @@ import cloudinary.api
 # Load .env file
 load_dotenv()
 
+# Database Variables
 secret_key = os.environ.get('SECRET_KEY')
 database_name = os.environ['DATABASE_NAME']
 database_user = os.environ.get('DATABASE_USER')
@@ -32,12 +34,27 @@ database_password = os.environ.get('DATABASE_PASSWORD')
 database_host = os.environ.get('DATABASE_HOST')
 database_port = os.environ.get('DATABASE_PORT')
 
+# Encryption Key
+ENCRYPT_KEY = os.environ.get('ENCRYPT_KEY')
+
 # adding config
 cloudinary.config(
     cloud_name = os.environ.get('CLOUD_NAME'),
     api_key = os.environ.get('API_KEY'),
     api_secret = os.environ.get('API_SECRET'),
 )
+
+# channel layer settings using Redis
+# it will be used for chat application, to share messages between users
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 
 # ------------------------------------------------------------------
 
@@ -69,12 +86,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # rest framework
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist', # for REST API
+
     # Custom Apps
+    'tokens.apps.TokensConfig', # For REST API
     'accounts.apps.AccountsConfig',
     'posts.apps.PostsConfig',
-
+    'chat.apps.ChatConfig',
+    
     # 3rd Party
     'cloudinary',
+    'channels', # for chat application
+    'corsheaders', # for CORS headers
 ]
 
 MIDDLEWARE = [
@@ -85,6 +110,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 3rd Party
+    'corsheaders.middleware.CorsMiddleware', # for CORS headers
 ]
 
 ROOT_URLCONF = 'quora.urls'
@@ -93,7 +121,11 @@ TEMPLATES = [
     {
         
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates", BASE_DIR / "accounts/templates", BASE_DIR / "posts/templates"],
+        'DIRS': [BASE_DIR / "templates", 
+                 BASE_DIR / "accounts/templates",
+                 BASE_DIR / "posts/templates",
+                 BASE_DIR / "chat/templates",
+                ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,7 +139,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'quora.wsgi.application'
-
+ASGI_APPLICATION= "quora.asgi.application" # Custom by SAM
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -175,3 +207,26 @@ LOGIN_REDIRECT_URL = "profile"
 LOGOUT_REDIRECT_URL = "login"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+REST_FRAMEWORK = { # for REST API
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+CORS_ALLOWED_ORIGIN = [ # for CORS headers
+    'http://localhost:3000',
+]
+
+CORS_ORIGIN_ALLOW_ALL = True # for CORS headers
+
+SIMPLE_JWT = {
+     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+     'ROTATE_REFRESH_TOKENS': True,
+     'BLACKLIST_AFTER_ROTATION': True
+}
+
+FERNET_KEYS = [
+    ENCRYPT_KEY,
+]

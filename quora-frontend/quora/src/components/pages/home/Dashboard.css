@@ -1,0 +1,32 @@
+.pic2 {
+  width: 100%;
+  height: 100vh;
+  background: url(../../../assets/images/cover.png) no-repeat center !important;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-color-red {
+    color: #dc3545 !important;
+  }
+  
+  .animated-text {
+    animation: slideIn 2s ease-in-out forwards; /* Adjusted duration to 2 seconds */
+    opacity: 0;
+    color: #05020298; /* Green color, change it to your desired color */
+    font-weight: bold; /* Adjust font weight as needed */
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
