@@ -3,8 +3,8 @@ This file contains all the views that are used in the home page.
 '''
 
 from django.views.generic import TemplateView
-from posts.common.queries import HomePageQueries
 from django.contrib.auth.mixins import LoginRequiredMixin
+from posts.common.queries import HomePageQueries
 
 class HomePageView(LoginRequiredMixin, TemplateView):
     '''
